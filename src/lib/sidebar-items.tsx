@@ -12,32 +12,33 @@ export const navItems = [
 
 export const shortCutItems = [
   { title: "Connect", href: "/connect", icon: Pin },
-  { title: "Subscribe", href: "/subscribe", icon: Pin },
-  { title: "Dispute", href: "/dispute", icon: Clock4 },
+  { title: "Subscription", href: "/subscription", icon: Pin },
+  { title: "Radar", href: "/radar", icon: Clock4 },
+  { title: "Disputes", href: "/disputes", icon: Clock4 },
 ];
 
 export const productItems= [
-  { title: "Payments", icon: Wallet, childred: [
+  { title: "Payments", icon: Wallet, children: [
     { title: "Dispute", href: "/dispute" },
     { title: "Radar", href: "/radar" },
     { title: "Payment Links", href: "/payment-links" },
     { title: "Terminal", href: "/terminal" },
   ]},
-  { title: "Billing", icon: ReceiptText, childred: [
+  { title: "Billing", icon: ReceiptText, children: [
     { title: "Overview", href: "/billing/overview" },
     { title: "Subscriptions", href: "/billing/subscriptions" },
     { title: "Invoices", href: "/billing/invoices" },
     { title: "Meters", href: "/billing/meters" },
     { title: "Revenue Recovery", href: "/billing/revenue-recovery" },
   ]},
-  { title: "Reporting", icon: ChartBar, childred: [
+  { title: "Reporting", icon: ChartBar, children: [
     { title: "Reports", href: "/reporting/reports " },
     { title: "Custom Metrics", href: "/reporting/custom-metrics" },
     { title: "Sigma", href: "/reporting/sigma" },
     { title: "Revenue Recognition", href: "/customers/revenue-recognition" },
     { title: "Data Management", href: "/customers/data-management" },
   ]},
-  { title: "More", icon: Ellipsis, childred: [
+  { title: "More", icon: Ellipsis, children: [
     { title: "Tax", href: "/tax" },
     { title: "Connect", href: "/connect" },
     { title: "Identity", href: "/identity" },

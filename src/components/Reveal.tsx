@@ -3,8 +3,14 @@
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-const Reveal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface RevealProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Reveal: React.FC<RevealProps> = ({ children, className }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.3 });
 
@@ -15,6 +21,7 @@ const Reveal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <motion.div
       ref={ref}
+      className={cn(className)}
       initial="hidden"
       animate={controls}
       transition={{ duration: 0.6, ease: "easeOut" }}
