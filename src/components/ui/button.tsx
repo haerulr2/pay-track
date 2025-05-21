@@ -35,25 +35,38 @@ const buttonVariants = cva(
   }
 )
 
+interface ButtonProps extends React.ComponentProps<"button">,
+  VariantProps<typeof buttonVariants> {
+    asChild?: boolean
+    iconSize?: "sm" | "md" | "lg"
+}
+
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  iconSize = "sm",
   ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
+}: ButtonProps) {
   const Comp = asChild ? Slot : "button"
+
+  const iconSizeClass = {
+    xs: "[&_svg]:!size-3",
+    sm: "[&_svg]:!size-4",
+    md: "[&_svg]:!size-5",
+    lg: "[&_svg]:!size-6",
+    xl: "[&_svg]:!size-7",
+  }[iconSize]
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }), iconSizeClass)}
       {...props}
     />
   )
 }
 
 export { Button, buttonVariants }
+export type { ButtonProps }
