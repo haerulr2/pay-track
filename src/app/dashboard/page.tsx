@@ -8,7 +8,7 @@ import Reveal from "@/components/Reveal";
 
 export default function DashboardPage() {
   return (
-    <div className="max-w-7xl mx-auto px-1 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-1 py-8 space-y-12">
       <div>
         <Reveal>
           <h1 className="text-2xl font-bold border-b border-gray-200 pb-2 mb-8">
