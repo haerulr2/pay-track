@@ -5,10 +5,11 @@ import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui
 import { DropdownMenu } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Topbar() {
   return (
-    <header className="fixed top-0 right-0 left-64 z-40 h-16 bg-white hidden md:block max-w-7xl mx-auto z-50">
+    <header className="fixed top-0 right-0 left-64 z-40 h-16 bg-white dark:bg-zinc-900 hidden md:block max-w-7xl mx-auto z-50">
       <div className="flex items-center justify-between h-full">
         {/* Search */}
         <div className="flex-1 max-w-lg">
@@ -18,7 +19,7 @@ export default function Topbar() {
               type="text"
               placeholder="Search..."
               className={cn(
-                "w-full pl-10 pr-4 py-2 text-sm rounded-lg text-zinc-500 bg-zinc-100",
+                "w-full pl-10 pr-4 py-2 text-sm rounded-lg text-zinc-500 bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-300",
                 "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               )}
             />
@@ -27,6 +28,7 @@ export default function Topbar() {
 
         {/* Actions */}
         <div className="flex items-center space-x-2">
+          <ThemeToggle />
           <Button variant="ghost" size="icon" iconSize="md">
             <LayoutGrid />
           </Button>

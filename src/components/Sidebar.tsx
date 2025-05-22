@@ -8,11 +8,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 export default function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 hidden md:block">
+    <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800 hidden md:block">
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="h-16 flex items-center px-6">
-          <Link href="/dashboard" className="flex items-center text-xl font-semibold">
+          <Link href="/dashboard" className="flex items-center text-xl font-semibold dark:text-white">
             <Store className="w-6 h-6 mr-2" />
             PayTrack
           </Link>
@@ -26,7 +26,7 @@ export default function Sidebar() {
               href={item.href}
               className={cn(
                 "flex items-center px-2 h-[30px] text-sm font-light rounded-lg mb-0",
-                "text-default-800 hover:bg-gray-100 hover:text-gray-900",
+                "text-default-800 dark:text-zinc-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-800 dark:hover:text-white",
                 "transition-colors duration-150 ease-in-out"
               )}
             >
@@ -38,11 +38,11 @@ export default function Sidebar() {
 
         {/* Shortcuts */}
         <nav className="px-3 py-6 space-y-1">
-          <h3 className="text-xs font-light text-default-800 px-2">Shortcuts</h3>
+          <h3 className="text-xs font-light text-default-800 dark:text-zinc-400 px-2">Shortcuts</h3>
           {shortCutItems.map((item) => (
             <Link key={item.href} href={item.href} className={cn(
               "flex items-center px-2 h-[30px] text-sm font-light rounded-lg mb-0",
-              "text-default-800 hover:bg-gray-100 hover:text-gray-900",
+              "text-default-800 dark:text-zinc-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-800 dark:hover:text-white",
               "transition-colors duration-150 ease-in-out"
             )}>
               <item.icon className="w-4 h-4 mr-3" />
@@ -53,13 +53,13 @@ export default function Sidebar() {
 
         {/* Product */}
         <nav className="px-3 py-6 space-y-1">
-          <h3 className="text-xs font-light text-default-800 px-2">Product</h3>
+          <h3 className="text-xs font-light text-default-800 dark:text-zinc-400 px-2">Product</h3>
           <Accordion type="single" collapsible className="w-full">
             {productItems.map((item) => (
               <AccordionItem key={item.title} value={item.title} className="border-none shadow-none">
                 <AccordionTrigger
                   className={cn(
-                    "flex items-center justify-start px-2 h-[30px] text-sm font-light rounded-lg mb-0 hover:bg-gray-100 hover:text-gray-900",
+                    "flex items-center justify-start px-2 h-[30px] text-sm font-light rounded-lg mb-0 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-800 dark:hover:text-white dark:text-zinc-300",
                     "transition-colors duration-150 ease-in-out cursor-pointer"
                   )}>
                   <item.icon className="w-4 h-4 mr-3" />
@@ -69,7 +69,7 @@ export default function Sidebar() {
                   {item.children.map((child) => (
                     <Link key={child.title} href={child.href} className={cn(
                       "flex items-center px-2 h-[30px] text-sm font-light rounded-lg mb-0",
-                      "text-default-800 hover:bg-gray-100 hover:text-gray-900 pl-9",
+                      "text-default-800 dark:text-zinc-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-800 dark:hover:text-white pl-9",
                       "transition-colors duration-150 ease-in-out"
                     )}>
                       {child.title}

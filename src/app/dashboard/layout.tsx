@@ -8,7 +8,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white dark:bg-zinc-900">
       {/* Sidebar */}
       <Sidebar />
 
@@ -17,7 +17,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main content */}
       <main className="md:pl-64">
-        <div className="min-h-screen pt-16 pb-16 bg-white">
+        <div className="min-h-screen pt-16 pb-16">
           {children}
         </div>
       </main>
