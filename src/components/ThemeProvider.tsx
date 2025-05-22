@@ -13,7 +13,19 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  ...props
+  attribute,
+  defaultTheme,
+  enableSystem,
+  disableTransitionOnChange,
 }: ThemeProviderProps) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-} 
+  return (
+    <NextThemesProvider
+      attribute={attribute as "class"}
+      defaultTheme={defaultTheme}
+      enableSystem={enableSystem}
+      disableTransitionOnChange={disableTransitionOnChange}
+    >
+      {children}
+    </NextThemesProvider>
+  );
+}

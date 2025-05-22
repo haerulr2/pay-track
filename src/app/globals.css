@@ -138,3 +138,17 @@
       box-shadow 0.3s ease;
   }
 }
+
+@layer utilities {
+  .perspective-\[800px\] {
+    perspective: 800px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}

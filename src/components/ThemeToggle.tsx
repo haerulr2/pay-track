@@ -4,7 +4,7 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -31,31 +31,30 @@ export function ThemeToggle() {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       aria-label="Toggle theme"
     >
-      <div className="relative w-5 h-5 overflow-hidden">
-        <AnimatePresence mode="wait" initial={false}>
-          {theme === "dark" ? (
-            <motion.div
-              key="moon"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Moon className="h-5 w-5" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="sun"
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Sun className="h-5 w-5" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      <motion.div
+        animate={{ 
+          rotate: theme === "dark" ? 0 : 360,
+          scale: [1, 1.15, 1]
+        }}
+        transition={{ 
+          rotate: {
+            type: "spring", 
+            stiffness: 160, 
+            damping: 15
+          },
+          scale: {
+            duration: 0.3,
+            times: [0, 0.5, 1]
+          }
+        }}
+        className="relative w-5 h-5"
+      >
+        {theme === "dark" ? (
+          <Moon className="h-5 w-5" />
+        ) : (
+          <Sun className="h-5 w-5" />
+        )}
+      </motion.div>
     </Button>
   );
 }  
