@@ -1,9 +1,8 @@
 'use client';
 
-import { metrics } from "@/lib/dummy-state";
+import { metrics, transactions } from "@/lib/dummy-state";
 import MetricCard from "@/components/MetricCard";
 import Chart from "@/components/Chart";
-import TransactionTable from "@/components/TransactionTable";
 import Reveal from "@/components/Reveal";
 
 export default function DashboardPage() {
@@ -11,7 +10,7 @@ export default function DashboardPage() {
     <div className="max-w-7xl mx-auto px-1 py-8 space-y-12">
       <div>
         <Reveal>
-          <h1 className="text-2xl font-bold border-b border-gray-200 pb-2 mb-8">
+          <h1 className="text-2xl font-bold border-b border-gray-200 dark:border-zinc-500 pb-2 mb-8">
             Today
           </h1>
         </Reveal>
@@ -23,8 +22,8 @@ export default function DashboardPage() {
 
           <Reveal>
             {/* <ApiKeyCard publishableKey={"pk_test_1234567890"} secretKey={"sk_test_1234567890"} /> */}
-            <div className="flex flex-col h-full bg-white space-y-5">
-              <div className="flex-1 border-b border-gray-200 pl-4">
+            <div className="flex flex-col h-full bg-white dark:bg-zinc-900 space-y-5">
+              <div className="flex-1 border-b border-gray-200 dark:border-zinc-500 pl-4">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm font-medium">USD balance</span>
                   <a href="/test/balance/overview?currency=usd" className="text-sm font-medium text-blue-500 hover:underline">
@@ -53,7 +52,7 @@ export default function DashboardPage() {
 
       <div>
         <Reveal>
-          <h1 className="text-2xl font-bold border-b border-gray-200 pb-2 mb-8">
+          <h1 className="text-2xl font-bold border-b border-gray-200 dark:border-zinc-500 pb-2 mb-8">
             Dashboard Overview
           </h1>
         </Reveal>
@@ -71,7 +70,17 @@ export default function DashboardPage() {
         </Reveal>
 
         <Reveal>
-          <TransactionTable />
+          <div className="bg-white dark:bg-zinc-900 p-4">
+            <h3 className="text-sm text-gray-500 mb-4 dark:text-gray-400">Recent Transactions</h3>
+            <ul className="space-y-2 text-sm">
+              {transactions.map((tx) => (
+                <li key={tx.id} className="flex justify-between border-b border-gray-200 dark:border-zinc-500 pb-2">
+                  <span>{tx.name}</span>
+                  <span className="font-semibold">{tx.amount}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
       </div>
     </div>
