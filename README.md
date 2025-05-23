@@ -20,20 +20,38 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ---
 
-## 📂 Folder Structure
-/app
-  /dashboard → Overview (metrics + chart)
-  /transactions → (On Progress)
-  /settings → (Upcoming)
-layout.tsx → Global layout wrapper
+## ✨ Features
 
-/components
-  MetricCard.tsx
-  Chart.tsx
-  TransactionsTable.tsx
-  ThemeToggle.tsx
-  Reveal.tsx
+- ⚡ Realistic dashboard layout
+- 🌗 Dark mode support (toggle)
+- 📊 Interactive chart
+- 🧾 Paginated + filtered transaction table
+- 💨 Smooth scroll-reveal animations
+- ✅ Responsive across all breakpoints
 
-/lib
-  dummy-stats.ts
-  dummy-transactions.ts
+---
+
+## 🔗 Live Demo
+
+👉 [Visit PayTrack Dashboard (Vercel)](https://pay-track-eta.vercel.app/dashboard)
+
+---
+
+## 📌 Purpose
+
+This project is built **solely for educational & portfolio purposes**. It is **not affiliated** with Stripe or any third-party brand.
+
+---
+
+## 📃 License
+
+MIT License – [read here](./LICENSE)
+
+---
+
+## 🤝 Credits
+
+Inspired by the UI/UX structure of [stripe.com](https://stripe.com) and rebuilt as a frontend architecture showcase.
+
+---
+
