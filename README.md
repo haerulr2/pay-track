@@ -11,7 +11,7 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ## 🚀 Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Styling**: TailwindCSS + Dark Mode (`next-themes`)
 - **Charting**: Recharts
 - **Animation**: Framer Motion
