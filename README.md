@@ -33,7 +33,7 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ## 🔗 Live Demo
 
-👉 [Visit PayTrack Dashboard (Vercel)](https://pay-track-eta.vercel.app/dashboard)
+👉 ![Visit PayTrack Dashboard (Vercel)](https://pay-track-eta.vercel.app/dashboard)
 
 ---
 
@@ -45,13 +45,13 @@ This project is built **solely for educational & portfolio purposes**. It is **n
 
 ## 📃 License
 
-MIT License – [read here](./LICENSE)
+MIT License – ![read here](./LICENSE)
 
 ---
 
 ## 🤝 Credits
 
-Inspired by the UI/UX structure of [stripe.com](https://stripe.com) and rebuilt as a frontend architecture showcase.
+Inspired by the UI/UX structure of ![stripe.com](https://stripe.com) and rebuilt as a frontend architecture showcase.
 
 ---
 
