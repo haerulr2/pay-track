@@ -4,7 +4,7 @@ A modern, responsive, and animated dashboard clone inspired by Stripe, built wit
 
 This project is designed to simulate a production-grade dashboard for managing transactions, analytics, and user data. Built as a portfolio piece to demonstrate real-world frontend architecture.
 
-![PayTrack Preview](https://github.com/user-attachments/assets/af5f6516-9f59-4c2b-9bf0-3211419d6e3c)
+![PayTrack Preview](https://github.com/user-attachments/assets/b30a0122-563c-492b-833e-0f8902844afa)
 
 
 ---
