@@ -31,25 +31,25 @@ export const tabMenus: Record<string, TabMenuConfig> = {
       }
     ]
   },
-  // Add more page configurations as needed
-  dashboard: {
-    defaultValue: "Overview",
-    items: [
-      {
-        id: "overview",
-        label: "Overview",
-        value: "Overview"
-      },
-      {
-        id: "analytics",
-        label: "Analytics",
-        value: "Analytics"
-      },
-      {
-        id: "reports",
-        label: "Reports", 
-        value: "Reports"
-      }
-    ]
-  }
+  // // Add more page configurations as needed
+  // dashboard: {
+  //   defaultValue: "Overview",
+  //   items: [
+  //     {
+  //       id: "overview",
+  //       label: "Overview",
+  //       value: "Overview"
+  //     },
+  //     {
+  //       id: "analytics",
+  //       label: "Analytics",
+  //       value: "Analytics"
+  //     },
+  //     {
+  //       id: "reports",
+  //       label: "Reports", 
+  //       value: "Reports"
+  //     }
+  //   ]
+  // }
 }; 

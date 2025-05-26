@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { TabMenuItem } from "@/lib/tab-menus";
-import styles from "./DynamicTabs.module.css";
+import "@/styles/DynamicTabs.css";
 
 interface DynamicTabsProps {
   items: TabMenuItem[];
@@ -76,7 +76,7 @@ export default function DynamicTabs({
 
   return (
     <Tabs defaultValue={defaultValue} onValueChange={handleTabChange}>
-      <div className={`overflow-x-auto pb-1 -mb-1 ${styles.tabsContainer}`}>
+      <div className="overflow-x-auto pb-1 -mb-1 tabs-container">
         <TabsList className={cn(
           "bg-transparent w-full min-w-max justify-start border-b dark:border-zinc-500 rounded-none pb-0"
         )}>
@@ -91,7 +91,7 @@ export default function DynamicTabs({
                 "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:rounded-full",
                 "after:bg-blue-600 after:transition-transform after:duration-300 after:ease-out",
                 "data-[state=active]:after:scale-x-100 data-[state=inactive]:after:scale-x-0",
-                animatingTab === item.value && styles.tabPulse
+                animatingTab === item.value && "tab-pulse"
               )} 
               value={item.value}
             >
