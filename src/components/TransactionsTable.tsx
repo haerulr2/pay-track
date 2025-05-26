@@ -2,21 +2,10 @@
 
 import { useState } from "react";
 import { transactions, Transaction } from "@/lib/dummy-transactions";
-import { cn } from "@/lib/utils";
 import { ChevronDown, Download, Filter } from "lucide-react";
 
 export default function TransactionsTable() {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-
-  // Get counts for each status
-  const statusCounts = {
-    All: transactions.length,
-    Succeeded: transactions.filter(tx => tx.status === "Succeeded").length,
-    Failed: transactions.filter(tx => tx.status === "Failed").length,
-    Refunded: transactions.filter(tx => tx.status === "Refunded").length,
-    Disputed: transactions.filter(tx => tx.status === "Disputed").length,
-    Uncaptured: transactions.filter(tx => tx.status === "Uncaptured").length,
-  };
 
   // Handle checkbox selection
   const handleSelectRow = (id: string) => {
@@ -119,69 +108,6 @@ export default function TransactionsTable() {
 
   return (
     <div className="bg-white dark:bg-zinc-900 border dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm">
-      {/* Status filters */}
-      <div className="px-4 md:px-6 py-3 flex flex-wrap gap-2">
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.All > 0 ? "border-blue-600 bg-blue-50 text-blue-800 dark:bg-blue-900/30 dark:border-blue-700" : "border-gray-300"
-        )}>
-          <span>All</span>
-          <span className="bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.All}
-          </span>
-        </div>
-        
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.Succeeded > 0 ? "border-gray-300 dark:border-zinc-700" : "border-gray-300 dark:border-zinc-700 opacity-50"
-        )}>
-          <span>Succeeded</span>
-          <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.Succeeded}
-          </span>
-        </div>
-        
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.Refunded > 0 ? "border-gray-300 dark:border-zinc-700" : "border-gray-300 dark:border-zinc-700 opacity-50"
-        )}>
-          <span>Refunded</span>
-          <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.Refunded}
-          </span>
-        </div>
-        
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.Disputed > 0 ? "border-gray-300 dark:border-zinc-700" : "border-gray-300 dark:border-zinc-700 opacity-50"
-        )}>
-          <span>Disputed</span>
-          <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.Disputed}
-          </span>
-        </div>
-        
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.Failed > 0 ? "border-gray-300 dark:border-zinc-700" : "border-gray-300 dark:border-zinc-700 opacity-50"
-        )}>
-          <span>Failed</span>
-          <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.Failed}
-          </span>
-        </div>
-        
-        <div className={cn(
-          "px-4 py-2 rounded-md border text-sm flex items-center space-x-2",
-          statusCounts.Uncaptured > 0 ? "border-gray-300 dark:border-zinc-700" : "border-gray-300 dark:border-zinc-700 opacity-50"
-        )}>
-          <span>Uncaptured</span>
-          <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 rounded-full px-2 py-0.5 text-xs font-medium">
-            {statusCounts.Uncaptured}
-          </span>
-        </div>
-      </div>
-
       {/* Filters */}
       <div className="px-4 md:px-6 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
         <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">

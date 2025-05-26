@@ -1,0 +1,20 @@
+@keyframes tab-pulse {
+  0% { background-color: transparent; }
+  30% { background-color: rgba(59, 130, 246, 0.12); }
+  100% { background-color: transparent; }
+}
+
+.tab-pulse {
+  animation: tab-pulse 1s ease-in-out;
+  border-radius: 0.375rem;
+}
+
+/* Hide scrollbar but allow scrolling */
+.tabs-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+} 
