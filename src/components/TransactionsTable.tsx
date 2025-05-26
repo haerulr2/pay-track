@@ -107,9 +107,9 @@ export default function TransactionsTable() {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 border dark:border-zinc-800 rounded-lg overflow-hidden shadow-sm">
+    <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden shadow-none">
       {/* Filters */}
-      <div className="px-4 md:px-6 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
+      <div className="px-4 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
         <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
           <span>Date and time</span>
           <ChevronDown className="w-4 h-4" />
@@ -159,14 +159,14 @@ export default function TransactionsTable() {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="px-4 py-3">Amount</th>
-              <th className="px-4 py-3">Payment method</th>
-              <th className="px-4 py-3">Description</th>
-              <th className="px-4 py-3">Customer</th>
-              <th className="px-4 py-3">Date</th>
-              <th className="px-4 py-3">Refunded date</th>
-              <th className="px-4 py-3">Decline reason</th>
-              <th className="px-4 py-3 text-right pr-6"></th>
+              <th className="">Amount</th>
+              <th className="">Payment method</th>
+              <th className="">Description</th>
+              <th className="">Customer</th>
+              <th className="">Date</th>
+              <th className="">Refunded date</th>
+              <th className="">Decline reason</th>
+              <th className=" text-right pr-6"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-sm">
@@ -180,31 +180,31 @@ export default function TransactionsTable() {
                     onChange={() => handleSelectRow(tx.id)}
                   />
                 </td>
-                <td className="px-4 py-3 font-medium">
+                <td className=" font-medium">
                   {tx.amount} {tx.currency}
                 </td>
-                <td className="px-4 py-3">
+                <td className="">
                   <div className="flex items-center space-x-2">
                     {getPaymentIcon(tx.paymentIcon)}
                     <span>{tx.paymentMethod}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                <td className=" text-gray-600 dark:text-gray-400">
                   {tx.description}
                 </td>
-                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                <td className=" text-gray-600 dark:text-gray-400">
                   {tx.customer}
                 </td>
-                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                <td className=" text-gray-600 dark:text-gray-400">
                   {tx.date}
                 </td>
-                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                <td className=" text-gray-600 dark:text-gray-400">
                   {tx.refundedDate || "—"}
                 </td>
-                <td className="px-4 py-3 text-gray-600 dark:text-gray-400">
+                <td className=" text-gray-600 dark:text-gray-400">
                   {tx.declineReason || "—"}
                 </td>
-                <td className="px-4 py-3 text-right pr-6">
+                <td className=" text-right pr-6">
                   {getStatusBadge(tx.status)}
                 </td>
               </tr>

@@ -1,17 +1,34 @@
 "use client";
 
 import TransactionsTable from "@/components/TransactionsTable";
-import DynamicTabs from "@/components/DynamicTabs";
+import TabsMenu from "@/components/TabsMenu";
+import FilterTabs from "@/components/FilterTabs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { tabMenus } from "@/lib/tab-menus";
 import { TabMenuItem } from "@/lib/tab-menus";
+import { FilterTabItem, filterTabsMenus } from "@/lib/filterTabs-menu";
 
 export default function TransactionsPage() {
+  const handleFilterTabClick = (filterItem: FilterTabItem) => {
+    console.log("Filter tab clicked:", filterItem);
+    // Handle filter logic here
+  };
+
   const renderTabContent = (item: TabMenuItem) => {
     switch (item.value) {
       case "Payments":
-        return <TransactionsTable />;
+        return (
+          <div className="space-y-4">
+            {filterTabsMenus.transactions && (
+              <FilterTabs 
+                items={filterTabsMenus.transactions.items}
+                onTabClick={handleFilterTabClick}
+              />
+            )}
+            <TransactionsTable />
+          </div>
+        );
       case "Collected fees":
         return (
           <div className="py-12 flex flex-col items-center justify-center text-center text-gray-500 dark:text-gray-400">
@@ -68,11 +85,11 @@ export default function TransactionsPage() {
         </div>
       </div>
 
-      <DynamicTabs
-        items={tabMenus.transactions.items}
-        defaultValue={tabMenus.transactions.defaultValue}
-        renderTabContent={renderTabContent}
-      />
+              <TabsMenu
+          items={tabMenus.transactions.items}
+          defaultValue={tabMenus.transactions.defaultValue}
+          renderTabContent={renderTabContent}
+        />
     </div>
   );
 }

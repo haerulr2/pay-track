@@ -5,6 +5,8 @@ export interface TabMenuItem {
   content?: React.ReactNode;
 }
 
+
+
 export interface TabMenuConfig {
   defaultValue: string;
   items: TabMenuItem[];

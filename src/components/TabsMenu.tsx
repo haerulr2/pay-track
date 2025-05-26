@@ -3,11 +3,11 @@
 import { useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { TabMenuItem } from "@/lib/tab-menus";
-import "@/styles/DynamicTabs.css";
+import "@/styles/TabsMenu.css";
+import Reveal from "./Reveal";
 
-interface DynamicTabsProps {
+interface TabsMenuProps {
   items: TabMenuItem[];
   defaultValue: string;
   onTabChange?: (value: string) => void;
@@ -15,13 +15,13 @@ interface DynamicTabsProps {
   renderTabContent?: (item: TabMenuItem) => React.ReactNode;
 }
 
-export default function DynamicTabs({ 
+export default function TabsMenu({ 
   items, 
   defaultValue, 
   onTabChange,
   children,
   renderTabContent 
-}: DynamicTabsProps) {
+}: TabsMenuProps) {
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   
   // Keep track of which tab was just activated for animation
@@ -50,30 +50,6 @@ export default function DynamicTabs({
     onTabChange?.(value);
   };
 
-  // Animation variants for tab content
-  const tabContentVariants = {
-    hidden: { 
-      opacity: 0,
-      x: 10,
-    },
-    visible: { 
-      opacity: 1,
-      x: 0,
-      transition: { 
-        duration: 0.3,
-        ease: "easeOut"
-      } 
-    },
-    exit: { 
-      opacity: 0,
-      x: -10,
-      transition: { 
-        duration: 0.2,
-        ease: "easeIn"
-      } 
-    }
-  };
-
   return (
     <Tabs defaultValue={defaultValue} onValueChange={handleTabChange}>
       <div className="overflow-x-auto pb-1 -mb-1 tabs-container">
@@ -86,7 +62,7 @@ export default function DynamicTabs({
               ref={(el) => { tabRefs.current[item.value] = el; }}
               className={cn(
                 "bg-transparent !shadow-none min-w-max flex-none px-4 pb-3 rounded-none relative",
-                "data-[state=active]:text-blue-600",
+                "data-[state=active]:text-blue-600 relative bottom-[-2px]",
                 "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300",
                 "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:rounded-full",
                 "after:bg-blue-600 after:transition-transform after:duration-300 after:ease-out",
@@ -102,17 +78,12 @@ export default function DynamicTabs({
       </div>
       
       {/* Custom tab content with animations */}
-      <div className="relative mt-6 overflow-hidden">
+      <div className="relative mt-2 overflow-hidden">
         {items.map((item) => (
           <TabsContent key={item.id} value={item.value} className="mt-0 outline-none">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={tabContentVariants}
-            >
+            <Reveal>
               {renderTabContent ? renderTabContent(item) : item.content}
-            </motion.div>
+            </Reveal>
           </TabsContent>
         ))}
         {children}
