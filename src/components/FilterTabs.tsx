@@ -43,7 +43,7 @@ export default function FilterTabs({ items, onTabClick, className }: FilterTabsP
     <div
       role="tablist"
       className={cn(
-        "flex overflow-x-auto gap-2 mb-1 p-4",
+        "flex overflow-x-auto gap-2 mb-1",
         className
       )}
     >
