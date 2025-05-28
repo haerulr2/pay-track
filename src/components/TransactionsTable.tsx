@@ -26,7 +26,7 @@ export default function TransactionsTable() {
   };
 
   const getPaymentIcon = (icon: string) => {
-    switch(icon) {
+    switch (icon) {
       case 'visa':
         return (
           <div className="flex items-center justify-center w-8 h-5 bg-blue-700 text-white rounded">
@@ -67,7 +67,7 @@ export default function TransactionsTable() {
   };
 
   const getStatusBadge = (status: Transaction['status']) => {
-    switch(status) {
+    switch (status) {
       case 'Succeeded':
         return (
           <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800">
@@ -109,7 +109,7 @@ export default function TransactionsTable() {
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden shadow-none">
       {/* Filters */}
-      <div className="px-4 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
+      <div className="px-1 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
         <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
           <span>Date and time</span>
           <ChevronDown className="w-4 h-4" />
@@ -134,9 +134,9 @@ export default function TransactionsTable() {
           <span>More filters</span>
           <Filter className="w-4 h-4" />
         </button>
-        
+
         <div className="flex-grow"></div>
-        
+
         <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1 ml-auto">
           <Download className="w-4 h-4" />
           <span>Export</span>
@@ -149,39 +149,44 @@ export default function TransactionsTable() {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="text-xs text-left text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          <thead className="text-sm text-left text-gray-500 dark:text-gray-400 tracking-wider">
             <tr className="border-b dark:border-zinc-800">
-              <th className="pl-6 py-3">
-                <input 
-                  type="checkbox" 
+              <th className="px-1 py-2">
+                <input
+                  type="checkbox"
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   checked={selectedRows.length === transactions.length && transactions.length > 0}
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="text-xs font-medium">Amount</th>
-              <th className="text-xs font-medium">Payment method</th>
-              <th className="text-xs font-medium">Description</th>
-              <th className="text-xs font-medium">Customer</th>
-              <th className="text-xs font-medium">Date</th>
-              <th className="text-xs font-medium">Refunded date</th>
-              <th className="text-xs font-medium">Decline reason</th>
-              <th className="text-xs font-medium text-right pr-6"></th>
+              <th colSpan={3}>Amount</th>
+              <th>Payment method</th>
+              <th>Description</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Refunded date</th>
+              <th>Decline reason</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-sm">
+          <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-xs">
             {transactions.map((tx) => (
               <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800/50">
-                <td className="pl-6 py-3">
-                  <input 
-                    type="checkbox" 
+                <td className="px-1 py-2">
+                  <input
+                    type="checkbox"
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     checked={selectedRows.includes(tx.id)}
                     onChange={() => handleSelectRow(tx.id)}
                   />
                 </td>
-                <td className=" font-medium">
-                  {tx.amount} {tx.currency}
+                <td className=" font-medium text-right pr-2">
+                  {'$ ' + tx.amount}
+                </td>
+                <td className="text-gray-600 dark:text-gray-400">
+                  {tx.currency}
+                </td>
+                <td className=" text-gray-600 dark:text-gray-400">
+                  {getStatusBadge(tx.status)}
                 </td>
                 <td className="">
                   <div className="flex items-center space-x-2">
@@ -203,9 +208,6 @@ export default function TransactionsTable() {
                 </td>
                 <td className=" text-gray-600 dark:text-gray-400">
                   {tx.declineReason || "—"}
-                </td>
-                <td className=" text-right pr-6">
-                  {getStatusBadge(tx.status)}
                 </td>
               </tr>
             ))}
