@@ -159,14 +159,14 @@ export default function TransactionsTable() {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className="text-xs">Amount</th>
-              <th className="text-xs">Payment method</th>
-              <th className="text-xs">Description</th>
-              <th className="text-xs">Customer</th>
-              <th className="text-xs">Date</th>
-              <th className="text-xs">Refunded date</th>
-              <th className="text-xs">Decline reason</th>
-              <th className="text-xs text-right pr-6"></th>
+              <th className="text-xs font-medium">Amount</th>
+              <th className="text-xs font-medium">Payment method</th>
+              <th className="text-xs font-medium">Description</th>
+              <th className="text-xs font-medium">Customer</th>
+              <th className="text-xs font-medium">Date</th>
+              <th className="text-xs font-medium">Refunded date</th>
+              <th className="text-xs font-medium">Decline reason</th>
+              <th className="text-xs font-medium text-right pr-6"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-sm">
