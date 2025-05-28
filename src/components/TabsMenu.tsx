@@ -51,18 +51,18 @@ export default function TabsMenu({
   };
 
   return (
-    <Tabs defaultValue={defaultValue} onValueChange={handleTabChange}>
-      <div className="overflow-x-auto pb-1 -mb-1 tabs-container">
+    <Tabs defaultValue={defaultValue} onValueChange={handleTabChange} className="gap-0">
+      <div className="overflow-x-auto pb-1 tabs-container">
         <TabsList className={cn(
-          "bg-transparent w-full min-w-max justify-start border-b dark:border-zinc-500 rounded-none pb-0"
+          "bg-transparent w-full min-w-max justify-start border-b dark:border-zinc-500 rounded-none pb-0 gap-4"
         )}>
           {items.map((item) => (
             <TabsTrigger 
               key={item.id}
               ref={(el) => { tabRefs.current[item.value] = el; }}
               className={cn(
-                "bg-transparent !shadow-none min-w-max flex-none px-4 pb-3 rounded-none relative",
-                "data-[state=active]:text-blue-600 relative bottom-[-2px]",
+                "!bg-transparent !shadow-none min-w-max flex-none px-4 pb-3 rounded-none relative",
+                "data-[state=active]:text-blue-600 relative bottom-[-2px] px-0",
                 "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300",
                 "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:rounded-full",
                 "after:bg-blue-600 after:transition-transform after:duration-300 after:ease-out",
