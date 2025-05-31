@@ -1,0 +1,256 @@
+/**
+ * Component Template - Follow this structure for all new components
+ *
+ * This file serves as a reference for maintaining consistency across the codebase.
+ * Copy this template when creating new components and adjust as needed.
+ */
+
+"use client"; // Only when necessary (client components)
+
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+
+// External library imports
+import { motion } from "framer-motion";
+
+// Internal utilities and hooks
+import { cn } from "@/lib/utils";
+import { TIME_CONSTANTS } from "@/lib/constants";
+
+// Internal components
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+// Types
+import type { BaseComponentProps } from "@/types";
+
+/**
+ * Component props interface with JSDoc documentation
+ *
+ * @example
+ * ```tsx
+ * <ComponentTemplate
+ *   title="Hello World"
+ *   variant="primary"
+ *   onAction={handleAction}
+ * />
+ * ```
+ */
+interface ComponentTemplateProps extends BaseComponentProps {
+  /** The title to display in the component */
+  title: string;
+  /** Visual variant of the component */
+  variant?: "primary" | "secondary" | "outline";
+  /** Size variant of the component */
+  size?: "sm" | "md" | "lg";
+  /** Whether the component is in loading state */
+  isLoading?: boolean;
+  /** Whether the component is disabled */
+  disabled?: boolean;
+  /** Callback fired when action is triggered */
+  onAction?: (data: string) => void;
+  /** Optional data to pass to the component */
+  data?: Record<string, unknown>;
+}
+
+/**
+ * A template component demonstrating best practices for component structure.
+ *
+ * This component showcases proper organization of hooks, event handlers,
+ * early returns, and JSX structure according to project standards.
+ */
+function ComponentTemplate({
+  title,
+  variant = "primary",
+  size = "md",
+  isLoading = false,
+  disabled = false,
+  onAction,
+  data,
+  className,
+  children,
+}: ComponentTemplateProps) {
+  // 1. State hooks
+  const [internalState, setInternalState] = useState<string>("");
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  // 2. Derived state with useMemo for expensive computations
+  const computedValue = useMemo(() => {
+    if (!data) return null;
+    return Object.keys(data).length > 0 ? "has-data" : "no-data";
+  }, [data]);
+
+  const sizeClasses = useMemo(() => {
+    const sizeMap = {
+      sm: "text-sm p-2",
+      md: "text-base p-4",
+      lg: "text-lg p-6",
+    };
+    return sizeMap[size];
+  }, [size]);
+
+  // 3. Event handlers with useCallback for optimization
+  const handleAction = useCallback(() => {
+    if (disabled || isLoading) return;
+
+    setInternalState("action-triggered");
+    onAction?.(title);
+
+    // Reset state after delay
+    setTimeout(() => {
+      setInternalState("");
+    }, TIME_CONSTANTS.DEBOUNCE_DELAY);
+  }, [disabled, isLoading, onAction, title]);
+
+  const handleToggleExpanded = useCallback(() => {
+    setIsExpanded((prev) => !prev);
+  }, []);
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleAction();
+    }
+  }, [handleAction]);
+
+  // 4. Effects
+  useEffect(() => {
+    // Example effect - cleanup subscription or timer
+    const timer = setTimeout(() => {
+      // Effect logic here
+    }, TIME_CONSTANTS.DEBOUNCE_DELAY);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // 5. Early returns for loading/error states
+  if (isLoading) {
+    return (
+      <Card className={cn("animate-pulse", className)}>
+        <CardContent className="p-6">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!title) {
+    return null;
+  }
+
+  // 6. Main render with proper className composition
+  return (
+    <Card
+      className={cn(
+        "transition-all duration-200",
+        variant === "primary" && "border-blue-200 bg-blue-50",
+        variant === "secondary" && "border-gray-200 bg-gray-50",
+        variant === "outline" && "border-2 border-dashed",
+        disabled && "opacity-50 cursor-not-allowed",
+        className
+      )}
+    >
+      <CardHeader>
+        <CardTitle
+          className={cn(
+            "flex items-center justify-between cursor-pointer",
+            sizeClasses
+          )}
+          onClick={handleToggleExpanded}
+          onKeyDown={handleKeyDown}
+          role="button"
+          tabIndex={0}
+          aria-expanded={isExpanded}
+          aria-label={`Toggle ${title} details`}
+        >
+          <span>{title}</span>
+          <motion.span
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-sm"
+          >
+            ▼
+          </motion.span>
+        </CardTitle>
+      </CardHeader>
+
+      <motion.div
+        initial={false}
+        animate={{
+          height: isExpanded ? "auto" : 0,
+          opacity: isExpanded ? 1 : 0,
+        }}
+        transition={{ duration: 0.2 }}
+        style={{ overflow: "hidden" }}
+      >
+        <CardContent className="space-y-4">
+          {/* Conditional rendering with proper accessibility */}
+          {computedValue && (
+            <div className="text-sm text-muted-foreground">
+              Status: {computedValue}
+            </div>
+          )}
+
+          {/* Interactive elements with proper ARIA attributes */}
+          <Button
+            variant={variant === "primary" ? "default" : "outline"}
+            size={size}
+            disabled={disabled || isLoading}
+            onClick={handleAction}
+            className="w-full"
+            aria-describedby={internalState ? "action-feedback" : undefined}
+          >
+            {internalState === "action-triggered" ? "Action Triggered!" : "Trigger Action"}
+          </Button>
+
+          {/* Feedback message with proper ARIA */}
+          {internalState && (
+            <div
+              id="action-feedback"
+              className="text-sm text-green-600"
+              role="status"
+              aria-live="polite"
+            >
+              Action completed successfully
+            </div>
+          )}
+
+          {/* Children content */}
+          {children && (
+            <div className="mt-4">
+              {children}
+            </div>
+          )}
+        </CardContent>
+      </motion.div>
+    </Card>
+  );
+}
+
+export default ComponentTemplate;
+
+// Optional: Export additional utilities or types related to this component
+export type { ComponentTemplateProps };
+
+/**
+ * Usage Examples:
+ *
+ * Basic usage:
+ * <ComponentTemplate title="Basic Example" />
+ *
+ * With all props:
+ * <ComponentTemplate
+ *   title="Full Example"
+ *   variant="primary"
+ *   size="lg"
+ *   isLoading={false}
+ *   disabled={false}
+ *   onAction={(data) => console.log(data)}
+ *   data={{ key: "value" }}
+ *   className="custom-class"
+ * >
+ *   <p>Child content here</p>
+ * </ComponentTemplate>
+ */
