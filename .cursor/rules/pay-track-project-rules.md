@@ -1,8 +1,12 @@
 # Pay-Track Project Rules & Guidelines
 
-> **Version**: 1.0  
-> **Last Updated**: December 2024  
+> **Project**: Pay-Track Payment Tracking Application
+> **Version**: 1.0
+> **Last Updated**: December 2024
 > **Scope**: Professional Next.js development standards for consistency, maintainability, and scalability
+> **Location**: `.cursor/rules/pay-track-project-rules.md`
+
+---
 
 ## 📋 Table of Contents
 
@@ -21,30 +25,42 @@
 
 ---
 
+## 🎯 Project Overview
+
+**Pay-Track** is a professional payment tracking application built with Next.js 15, TypeScript, and Tailwind CSS. This document establishes coding standards and best practices specific to this project to ensure consistency, maintainability, and scalability.
+
+---
+
 ## 🏗️ Project Structure
 
 ### Directory Organization
 ```
-src/
-├── app/                    # Next.js App Router pages
-│   ├── (dashboard)/       # Route groups for layout organization
-│   ├── api/              # API routes
-│   ├── globals.css       # Global styles
-│   ├── layout.tsx        # Root layout
-│   └── page.tsx          # Home page
-├── components/            # Reusable UI components
-│   ├── ui/               # Base UI components (shadcn/ui)
-│   ├── forms/            # Form-specific components
-│   ├── layout/           # Layout components (Header, Footer, etc.)
-│   └── features/         # Feature-specific components
-├── lib/                  # Utility functions and configurations
-│   ├── utils.ts          # General utilities
-│   ├── validations.ts    # Zod schemas
-│   ├── constants.ts      # App constants
-│   └── hooks/            # Custom React hooks
-├── types/                # TypeScript type definitions
-├── styles/               # Additional CSS files
-└── __tests__/            # Test files
+pay-track/
+├── .cursor/                   # Cursor IDE configuration
+│   └── rules/                # Project-specific rules and guidelines
+├── src/
+│   ├── app/                  # Next.js App Router pages
+│   │   ├── (dashboard)/     # Route groups for dashboard layout
+│   │   ├── api/             # API routes
+│   │   ├── globals.css      # Global styles
+│   │   ├── layout.tsx       # Root layout
+│   │   └── page.tsx         # Home page
+│   ├── components/           # Reusable UI components
+│   │   ├── ui/              # Base UI components (shadcn/ui)
+│   │   ├── forms/           # Form-specific components
+│   │   ├── layout/          # Layout components (Header, Footer, etc.)
+│   │   └── features/        # Feature-specific components
+│   ├── lib/                 # Utility functions and configurations
+│   │   ├── utils.ts         # General utilities
+│   │   ├── validations.ts   # Zod schemas
+│   │   ├── constants.ts     # App constants
+│   │   └── hooks/           # Custom React hooks
+│   ├── types/               # TypeScript type definitions
+│   ├── styles/              # Additional CSS files
+│   └── __tests__/           # Test files
+├── public/                   # Static assets
+├── .vscode/                 # VSCode workspace settings
+└── node_modules/            # Dependencies
 ```
 
 ### Rules
@@ -52,12 +68,13 @@ src/
 - **Single responsibility**: Each directory should have a clear purpose
 - **Avoid deep nesting**: Maximum 3 levels deep for better navigation
 - **Use route groups**: Organize app router with `(groupName)` for cleaner URLs
+- **Follow the established structure**: Don't create new top-level directories without team consensus
 
 ---
 
 ## 🎨 Code Style & Formatting
 
-### Prettier Configuration
+### Prettier Configuration (`.prettierrc`)
 ```json
 {
   "semi": true,
@@ -67,7 +84,10 @@ src/
   "tabWidth": 2,
   "useTabs": false,
   "arrowParens": "always",
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
 ```
 
@@ -120,30 +140,31 @@ const handleSubmit = (data: any) => { ... }
 
 ### Component Props
 ```typescript
-// ✅ Good: Well-typed component props
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+// ✅ Good: Well-typed component props extending BaseComponentProps
+interface ButtonProps extends BaseComponentProps {
   variant?: "primary" | "secondary" | "outline";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  variant = "primary", 
-  size = "md", 
-  isLoading, 
-  children, 
-  ...props 
-}) => {
+function Button({
+  variant = "primary",
+  size = "md",
+  isLoading,
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   // Implementation
-};
+}
 ```
 
 ---
 
 ## 🧩 Component Architecture
 
-### Component Structure
+### Component Structure (Follow `_ComponentTemplate.tsx.example`)
 ```typescript
 "use client"; // Only when necessary (client components)
 
@@ -151,36 +172,36 @@ import React from "react";
 import { type ComponentProps } from "react";
 // ... other imports
 
-interface ComponentNameProps {
+interface ComponentNameProps extends BaseComponentProps {
   // Props definition
 }
 
-function ComponentName({ prop1, prop2, ...props }: ComponentNameProps) {
-  // Hooks
+function ComponentName({ prop1, prop2, className, children, ...props }: ComponentNameProps) {
+  // 1. Hooks
   const [state, setState] = useState();
-  
-  // Derived state
+
+  // 2. Derived state
   const computedValue = useMemo(() => {
     // computation
   }, [dependencies]);
-  
-  // Event handlers
+
+  // 3. Event handlers
   const handleClick = useCallback(() => {
     // handler logic
   }, [dependencies]);
-  
-  // Effects
+
+  // 4. Effects
   useEffect(() => {
     // effect logic
   }, [dependencies]);
-  
-  // Early returns
+
+  // 5. Early returns
   if (loading) return <LoadingSkeleton />;
   if (error) return <ErrorBoundary error={error} />;
-  
-  // Main render
+
+  // 6. Main render
   return (
-    <div>
+    <div className={cn("base-styles", className)}>
       {/* JSX */}
     </div>
   );
@@ -196,6 +217,7 @@ export default ComponentName;
 - **Use React.memo** only when performance testing shows benefits
 - **Keep components small**: Max 150 lines, split if larger
 - **Use compound components** for complex UI patterns
+- **Always extend BaseComponentProps** for consistency
 
 ### Custom Hooks
 ```typescript
@@ -204,11 +226,11 @@ function useApiData<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     // Fetch logic
   }, [url]);
-  
+
   return { data, loading, error, refetch };
 }
 ```
@@ -218,28 +240,29 @@ function useApiData<T>(url: string) {
 ## 📁 File Naming Conventions
 
 ### Files
-- **Components**: `PascalCase.tsx` (e.g., `UserProfile.tsx`)
+- **Components**: `PascalCase.tsx` (e.g., `ApiKeyCard.tsx`, `UserProfile.tsx`)
 - **Pages**: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`
 - **Utilities**: `camelCase.ts` (e.g., `formatCurrency.ts`)
-- **Constants**: `SCREAMING_SNAKE_CASE.ts` (e.g., `API_ENDPOINTS.ts`)
-- **Types**: `camelCase.types.ts` (e.g., `user.types.ts`)
+- **Constants**: `camelCase.ts` (e.g., `constants.ts`)
+- **Types**: `index.ts` in `types/` directory
+- **Hooks**: `use[HookName].ts` (e.g., `useLocalStorage.ts`)
 
 ### Variables & Functions
 - **Variables**: `camelCase` (e.g., `userName`, `isLoading`)
 - **Functions**: `camelCase` (e.g., `handleSubmit`, `fetchUserData`)
-- **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `MAX_RETRY_ATTEMPTS`)
-- **Components**: `PascalCase` (e.g., `UserProfile`, `DataTable`)
+- **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `API_ENDPOINTS`, `TIME_CONSTANTS`)
+- **Components**: `PascalCase` (e.g., `ApiKeyCard`, `UserProfile`)
 
 ### CSS Classes
 - **Use Tailwind utilities** as primary styling method
 - **Custom classes**: `kebab-case` (e.g., `user-profile`, `data-table`)
-- **BEM methodology** for complex custom CSS when needed
+- **Use `cn()` utility** for conditional classes
 
 ---
 
 ## 📦 Import Organization
 
-### Order
+### Order (Automatically enforced by VSCode settings)
 ```typescript
 // 1. React and Next.js
 import React from "react";
@@ -252,16 +275,16 @@ import { useQuery } from "@tanstack/react-query";
 
 // 3. Internal utilities and hooks
 import { cn } from "@/lib/utils";
-import { useLocalStorage } from "@/lib/hooks";
+import { TIME_CONSTANTS } from "@/lib/constants";
 
 // 4. Internal components
 import { Button } from "@/components/ui/button";
-import { UserCard } from "@/components/features/user";
+import { ApiKeyCard } from "@/components/ApiKeyCard";
 
 // 5. Types
-import type { User } from "@/types/user";
+import type { User, BaseComponentProps } from "@/types";
 
-// 6. Relative imports
+// 6. Relative imports (avoid when possible)
 import "./ComponentName.css";
 ```
 
@@ -294,8 +317,8 @@ const HeavyChart = dynamic(() => import("./HeavyChart"), {
 import Image from "next/image";
 
 <Image
-  src="/hero.jpg"
-  alt="Hero image"
+  src="/payment-hero.jpg"
+  alt="Payment tracking dashboard"
   width={800}
   height={600}
   priority={true} // Above the fold
@@ -306,7 +329,7 @@ import Image from "next/image";
 
 ### Bundle Optimization
 - **Tree shaking**: Import only what you need from libraries
-- **Bundle analysis**: Regularly check bundle size with `@next/bundle-analyzer`
+- **Bundle analysis**: Use `npm run build` to check bundle size
 - **External scripts**: Use `next/script` for third-party scripts
 
 ---
@@ -317,6 +340,9 @@ import Image from "next/image";
 ```typescript
 // app/error.tsx
 "use client";
+
+import { useEffect } from "react";
+import { ERROR_MESSAGES } from "@/lib/constants";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -329,9 +355,12 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   }, [error]);
 
   return (
-    <div className="error-container">
-      <h2>Something went wrong!</h2>
-      <button onClick={reset}>Try again</button>
+    <div className="error-container p-6 text-center">
+      <h2 className="text-xl font-semibold mb-4">Something went wrong!</h2>
+      <p className="text-muted-foreground mb-4">{ERROR_MESSAGES.GENERIC}</p>
+      <button onClick={reset} className="btn-primary">
+        Try again
+      </button>
     </div>
   );
 }
@@ -339,28 +368,29 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 
 ### API Error Handling
 ```typescript
-// Consistent API error handling
-type ApiError = {
-  message: string;
-  code: string;
-  statusCode: number;
-};
+// Use consistent error handling with types from @/types
+import type { ApiError } from "@/types";
+import { ERROR_MESSAGES } from "@/lib/constants";
 
 const handleApiError = (error: unknown): ApiError => {
   if (error instanceof Error) {
     return {
-      message: error.message,
+      message: error.message || ERROR_MESSAGES.GENERIC,
       code: "UNKNOWN_ERROR",
       statusCode: 500,
     };
   }
-  // Handle other error types
+  return {
+    message: ERROR_MESSAGES.GENERIC,
+    code: "UNKNOWN_ERROR",
+    statusCode: 500,
+  };
 };
 ```
 
 ### Rules
 - **Always handle errors**: No silent failures
-- **User-friendly messages**: Don't expose technical details to users
+- **User-friendly messages**: Use constants from `@/lib/constants`
 - **Log errors**: Use proper logging for debugging
 - **Graceful degradation**: Provide fallbacks when possible
 
@@ -383,12 +413,12 @@ if (!API_URL) {
 ### Security Rules
 - **Validate all inputs**: Use Zod or similar for validation
 - **Sanitize data**: Clean user inputs before processing
-- **Use HTTPS**: Always use secure connections
-- **Environment variables**: 
+- **Use HTTPS**: Always use secure connections in production
+- **Environment variables**:
   - Prefix client-side vars with `NEXT_PUBLIC_`
   - Keep sensitive data server-side only
+- **API Keys**: Always mask API keys in UI (see `ApiKeyCard` component)
 - **Content Security Policy**: Implement proper CSP headers
-- **CSRF protection**: Use proper authentication patterns
 
 ---
 
@@ -397,22 +427,21 @@ if (!API_URL) {
 ### Component Documentation
 ```typescript
 /**
- * A reusable button component with multiple variants and sizes.
- * 
+ * A reusable API key display component with copy functionality.
+ *
  * @example
  * ```tsx
- * <Button variant="primary" size="lg" onClick={handleClick}>
- *   Click me
- * </Button>
+ * <ApiKeyCard
+ *   publishableKey="pk_test_..."
+ *   secretKey="sk_test_..."
+ * />
  * ```
  */
-interface ButtonProps {
-  /** The visual style variant of the button */
-  variant?: "primary" | "secondary" | "outline";
-  /** The size of the button */
-  size?: "sm" | "md" | "lg";
-  /** Whether the button is in a loading state */
-  isLoading?: boolean;
+interface ApiKeyCardProps extends BaseComponentProps {
+  /** The publishable API key to display */
+  publishableKey: string;
+  /** The secret API key to display */
+  secretKey: string;
 }
 ```
 
@@ -431,19 +460,19 @@ interface ButtonProps {
 ```
 type(scope): description
 
-feat(auth): add user authentication with JWT
-fix(ui): resolve button spacing issue on mobile
+feat(payments): add payment tracking dashboard
+fix(api-keys): resolve copy functionality on mobile
 docs(readme): update installation instructions
-style(header): improve responsive navigation
-refactor(utils): simplify date formatting functions
-test(api): add unit tests for user endpoints
+style(components): improve responsive design for cards
+refactor(constants): organize API endpoints
+test(components): add unit tests for ApiKeyCard
 ```
 
 ### Branch Naming
-- **Features**: `feature/user-authentication`
-- **Bug fixes**: `fix/mobile-navigation-issue`
-- **Hotfixes**: `hotfix/critical-security-patch`
-- **Releases**: `release/v1.2.0`
+- **Features**: `feature/payment-dashboard`
+- **Bug fixes**: `fix/api-key-copy-mobile`
+- **Hotfixes**: `hotfix/security-patch`
+- **Releases**: `release/v1.0.0`
 
 ### Rules
 - **Small, focused commits**: One logical change per commit
@@ -459,19 +488,28 @@ test(api): add unit tests for user endpoints
 ```typescript
 // Component testing with React Testing Library
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Button } from "./Button";
+import { ApiKeyCard } from "./ApiKeyCard";
 
-describe("Button", () => {
-  it("renders with correct text", () => {
-    render(<Button>Click me</Button>);
-    expect(screen.getByRole("button", { name: /click me/i })).toBeInTheDocument();
+describe("ApiKeyCard", () => {
+  const mockProps = {
+    publishableKey: "pk_test_1234567890abcdef",
+    secretKey: "sk_test_abcdef1234567890",
+  };
+
+  it("renders masked API keys", () => {
+    render(<ApiKeyCard {...mockProps} />);
+    expect(screen.getByText(/pk_test_123\.\.\.cdef/)).toBeInTheDocument();
+    expect(screen.getByText(/sk_test_abc\.\.\.7890/)).toBeInTheDocument();
   });
 
-  it("calls onClick when clicked", () => {
-    const handleClick = jest.fn();
-    render(<Button onClick={handleClick}>Click me</Button>);
-    fireEvent.click(screen.getByRole("button"));
-    expect(handleClick).toHaveBeenCalledTimes(1);
+  it("copies key to clipboard when clicked", async () => {
+    const mockWriteText = jest.fn();
+    Object.assign(navigator, { clipboard: { writeText: mockWriteText } });
+
+    render(<ApiKeyCard {...mockProps} />);
+    fireEvent.click(screen.getByText(/pk_test_123\.\.\.cdef/));
+
+    expect(mockWriteText).toHaveBeenCalledWith(mockProps.publishableKey);
   });
 });
 ```
@@ -487,52 +525,64 @@ describe("Button", () => {
 
 ## 🔧 Tools & Automation
 
-### Required Tools
+### Required Tools (Already configured)
 - **ESLint**: Code linting and style enforcement
-- **Prettier**: Code formatting
+- **Prettier**: Code formatting with Tailwind CSS plugin
 - **TypeScript**: Type checking
-- **Husky**: Git hooks for pre-commit checks
-- **lint-staged**: Run linters on staged files only
+- **VSCode**: Workspace settings for consistency
+
+### Available Scripts
+```bash
+npm run dev          # Development server with Turbopack
+npm run build        # Production build
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint issues
+npm run type-check   # TypeScript type checking
+npm run format       # Format code with Prettier
+npm run format:check # Check code formatting
+npm run check-all    # Run all checks (type, lint, format)
+npm run clean        # Clean build cache
+```
 
 ### Automation
-- **Pre-commit hooks**: Lint, format, and type-check
-- **CI/CD pipeline**: Automated testing and deployment
-- **Bundle analysis**: Regular bundle size monitoring
-- **Performance monitoring**: Track Core Web Vitals
+- **Pre-commit hooks**: Use `npm run check-all` before commits
+- **VSCode settings**: Auto-format on save, organize imports
+- **Bundle analysis**: Monitor bundle size changes
 
 ---
 
 ## 📊 Performance Monitoring
 
-### Core Web Vitals
+### Core Web Vitals Targets
 - **LCP (Largest Contentful Paint)**: < 2.5s
 - **FID (First Input Delay)**: < 100ms
 - **CLS (Cumulative Layout Shift)**: < 0.1
 
 ### Monitoring Tools
-- **Next.js Analytics**: Built-in performance monitoring
+- **Next.js built-in analytics**: Monitor performance metrics
 - **Lighthouse**: Regular performance audits
-- **Bundle Analyzer**: Monitor bundle size changes
+- **Bundle size**: Monitor with each build
 
 ---
 
 ## 🎯 Code Review Checklist
 
 ### Before Submitting PR
-- [ ] Code follows style guidelines
-- [ ] All tests pass
+- [ ] Code follows Pay-Track style guidelines
+- [ ] All tests pass (`npm run check-all`)
 - [ ] TypeScript compiles without errors
 - [ ] No console.log statements in production code
 - [ ] Performance implications considered
-- [ ] Accessibility standards met
-- [ ] Security considerations addressed
+- [ ] Accessibility standards met (ARIA attributes, keyboard navigation)
+- [ ] Security considerations addressed (API key masking, input validation)
 
 ### Review Criteria
 - [ ] Code readability and maintainability
-- [ ] Proper error handling
-- [ ] Performance optimizations
-- [ ] Test coverage adequate
-- [ ] Documentation updated
+- [ ] Proper error handling with constants
+- [ ] Performance optimizations applied
+- [ ] Component structure follows template
+- [ ] Documentation updated if needed
 - [ ] No breaking changes without migration path
 
 ---
@@ -542,23 +592,54 @@ describe("Button", () => {
 ### Production Checklist
 - [ ] Environment variables configured
 - [ ] Error boundaries implemented
-- [ ] Performance optimized
+- [ ] Performance optimized (images, bundles)
 - [ ] Security headers configured
-- [ ] Analytics and monitoring setup
-- [ ] Bundle size within limits
-- [ ] Accessibility tested
+- [ ] API keys properly masked in UI
+- [ ] Bundle size within reasonable limits
+- [ ] Accessibility tested across devices
 - [ ] Cross-browser compatibility verified
+
+---
+
+## 🔄 Project-Specific Patterns
+
+### API Key Management
+- Always use the `ApiKeyCard` component for displaying API keys
+- Mask keys using the established pattern: `key.slice(0, 12) + "..." + key.slice(-4)`
+- Implement copy-to-clipboard with user feedback
+
+### Constants Usage
+- Import constants from `@/lib/constants`
+- Use `TIME_CONSTANTS` for timeouts and delays
+- Use `ERROR_MESSAGES` and `SUCCESS_MESSAGES` for user feedback
+
+### Component Extension
+- Always extend `BaseComponentProps` for new components
+- Use the `cn()` utility for conditional CSS classes
+- Follow the component template structure
 
 ---
 
 ## 📝 Notes
 
-- **Review regularly**: Update these rules as the project evolves
+- **Review regularly**: Update these rules as Pay-Track evolves
 - **Team consensus**: All team members should agree on rule changes
 - **Tooling enforcement**: Use automated tools to enforce rules
 - **Documentation**: Keep this document updated with new decisions
+- **Location**: This file should remain in `.cursor/rules/` for project-specific access
+
+---
+
+## 🔗 Quick Links
+
+- **Component Template**: `src/components/_ComponentTemplate.tsx.example`
+- **Type Definitions**: `src/types/index.ts`
+- **Constants**: `src/lib/constants.ts`
+- **VSCode Settings**: `.vscode/settings.json`
+- **Prettier Config**: `.prettierrc`
 
 ---
 
 *Last updated: December 2024*
-*Version: 1.0* 
+*Version: 1.0*
+*Project: Pay-Track Payment Tracking Application*
