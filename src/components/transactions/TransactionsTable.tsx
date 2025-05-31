@@ -170,7 +170,11 @@ export default function TransactionsTable() {
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-xs">
             {transactions.map((tx) => (
-              <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800/50">
+              <tr
+                key={tx.id}
+                className="hover:bg-gray-50 dark:hover:bg-zinc-800/50 cursor-pointer"
+                onClick={() => {}}
+              >
                 <td className="px-1 py-2">
                   <input
                     type="checkbox"

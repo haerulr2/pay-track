@@ -1,8 +1,8 @@
 "use client";
 
-import TransactionsTable from "@/components/TransactionsTable";
+import TransactionsTable from "@/components/transactions/TransactionsTable";
 import TabsMenu from "@/components/TabsMenu";
-import FilterTabs from "@/components/FilterTabs";
+import FilterTabs from "@/components/transactions/FilterTabs";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { tabMenus } from "@/lib/tab-menus";

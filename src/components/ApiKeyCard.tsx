@@ -1,29 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TIME_CONSTANTS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
-interface ApiKeyCardProps {
+import type { BaseComponentProps } from "@/types";
+
+interface ApiKeyCardProps extends BaseComponentProps {
   publishableKey: string;
   secretKey: string;
-  className?: string;
 }
 
-export default function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
-  const [, setCopiedKey] = useState<string | null>(null);
+function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const copyToClipboard = async (text: string, keyType: string) => {
+  const copyToClipboard = async (text: string, keyType: string): Promise<void> => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedKey(keyType);
-      setTimeout(() => setCopiedKey(null), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
+      setTimeout(() => setCopiedKey(null), TIME_CONSTANTS.DEBOUNCE_DELAY * 6);
+    } catch (error) {
+      console.error("Failed to copy text: ", error);
     }
   };
 
-  const maskKey = (key: string) => `${key.slice(0, 12)}...${key.slice(-4)}`;
+  const maskKey = (key: string): string => `${key.slice(0, 12)}...${key.slice(-4)}`;
+
+  const handleKeyClick = (key: string, keyType: string) => {
+    void copyToClipboard(key, keyType);
+  };
 
   return (
     <Card className={cn("border-none shadow-none bg-gray-100", className)}>
@@ -36,10 +42,23 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Publishable key</span>
               <code
-                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer"
-                onClick={() => copyToClipboard(publishableKey, "publishable")}
+                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                onClick={() => handleKeyClick(publishableKey, "publishable")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleKeyClick(publishableKey, "publishable");
+                  }
+                }}
+                aria-label="Click to copy publishable key"
+                title={copiedKey === "publishable" ? "Copied!" : "Click to copy"}
               >
                 {maskKey(publishableKey)}
+                {copiedKey === "publishable" && (
+                  <span className="ml-2 text-xs text-green-600">Copied!</span>
+                )}
               </code>
             </div>
           </div>
@@ -48,10 +67,23 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Secret key</span>
               <code
-                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer"
-                onClick={() => copyToClipboard(secretKey, "secret")}
+                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                onClick={() => handleKeyClick(secretKey, "secret")}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleKeyClick(secretKey, "secret");
+                  }
+                }}
+                aria-label="Click to copy secret key"
+                title={copiedKey === "secret" ? "Copied!" : "Click to copy"}
               >
                 {maskKey(secretKey)}
+                {copiedKey === "secret" && (
+                  <span className="ml-2 text-xs text-green-600">Copied!</span>
+                )}
               </code>
             </div>
           </div>
@@ -59,4 +91,6 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
       </CardContent>
     </Card>
   );
-} 
+}
+
+export default ApiKeyCard;
