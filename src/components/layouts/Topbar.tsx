@@ -1,11 +1,11 @@
 'use client';
 
 import { Bell, HelpCircle, LayoutGrid, Plus, Search, Settings } from "lucide-react";
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { DropdownMenu } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu } from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "../ThemeToggle";
 
 export default function Topbar() {
   return (
