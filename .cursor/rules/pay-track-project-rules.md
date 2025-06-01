@@ -34,6 +34,7 @@
 ## 🏗️ Project Structure
 
 ### Directory Organization
+
 ```
 pay-track/
 ├── .cursor/                   # Cursor IDE configuration
@@ -64,6 +65,7 @@ pay-track/
 ```
 
 ### Rules
+
 - **Keep related files close**: Group components by feature/domain
 - **Single responsibility**: Each directory should have a clear purpose
 - **Avoid deep nesting**: Maximum 3 levels deep for better navigation
@@ -75,6 +77,7 @@ pay-track/
 ## 🎨 Code Style & Formatting
 
 ### Prettier Configuration (`.prettierrc`)
+
 ```json
 {
   "semi": true,
@@ -92,12 +95,14 @@ pay-track/
 ```
 
 ### ESLint Rules
+
 - **Always use ESLint**: Follow `next/core-web-vitals` and `next/typescript`
 - **No unused variables**: Clean up imports and variables
 - **Consistent formatting**: Use Prettier for automatic formatting
 - **React hooks rules**: Follow hooks linting rules strictly
 
 ### Code Style Rules
+
 - **Use double quotes** for strings
 - **Use semicolons** at the end of statements
 - **Use trailing commas** in objects and arrays
@@ -110,6 +115,7 @@ pay-track/
 ## 📘 TypeScript Guidelines
 
 ### Type Definitions
+
 ```typescript
 // ✅ Good: Explicit interface definitions
 interface UserProfile {
@@ -131,6 +137,7 @@ const handleSubmit = (data: any) => { ... }
 ```
 
 ### Rules
+
 - **Strict mode enabled**: Always use strict TypeScript
 - **No implicit any**: Explicitly type all parameters and returns
 - **Use interfaces** for object shapes, **types** for unions/primitives
@@ -139,6 +146,7 @@ const handleSubmit = (data: any) => { ... }
 - **Organize types**: Keep types in dedicated `types/` directory for complex ones
 
 ### Component Props
+
 ```typescript
 // ✅ Good: Well-typed component props extending BaseComponentProps
 interface ButtonProps extends BaseComponentProps {
@@ -165,6 +173,7 @@ function Button({
 ## 🧩 Component Architecture
 
 ### Component Structure (Follow `_ComponentTemplate.tsx.example`)
+
 ```typescript
 "use client"; // Only when necessary (client components)
 
@@ -211,6 +220,7 @@ export default ComponentName;
 ```
 
 ### Component Rules
+
 - **Use function declarations** over arrow functions for components
 - **Single responsibility**: One component per file
 - **Composition over inheritance**: Prefer composition patterns
@@ -220,6 +230,7 @@ export default ComponentName;
 - **Always extend BaseComponentProps** for consistency
 
 ### Custom Hooks
+
 ```typescript
 // ✅ Good: Custom hook with proper naming and return
 function useApiData<T>(url: string) {
@@ -240,6 +251,7 @@ function useApiData<T>(url: string) {
 ## 📁 File Naming Conventions
 
 ### Files
+
 - **Components**: `PascalCase.tsx` (e.g., `ApiKeyCard.tsx`, `UserProfile.tsx`)
 - **Pages**: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`
 - **Utilities**: `camelCase.ts` (e.g., `formatCurrency.ts`)
@@ -248,12 +260,14 @@ function useApiData<T>(url: string) {
 - **Hooks**: `use[HookName].ts` (e.g., `useLocalStorage.ts`)
 
 ### Variables & Functions
+
 - **Variables**: `camelCase` (e.g., `userName`, `isLoading`)
 - **Functions**: `camelCase` (e.g., `handleSubmit`, `fetchUserData`)
 - **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `API_ENDPOINTS`, `TIME_CONSTANTS`)
 - **Components**: `PascalCase` (e.g., `ApiKeyCard`, `UserProfile`)
 
 ### CSS Classes
+
 - **Use Tailwind utilities** as primary styling method
 - **Custom classes**: `kebab-case` (e.g., `user-profile`, `data-table`)
 - **Use `cn()` utility** for conditional classes
@@ -263,6 +277,7 @@ function useApiData<T>(url: string) {
 ## 📦 Import Organization
 
 ### Order (Automatically enforced by VSCode settings)
+
 ```typescript
 // 1. React and Next.js
 import React from "react";
@@ -289,6 +304,7 @@ import "./ComponentName.css";
 ```
 
 ### Rules
+
 - **Use absolute imports** with `@/` alias for `src/`
 - **Group imports** by category with blank lines
 - **Sort alphabetically** within each group
@@ -300,12 +316,14 @@ import "./ComponentName.css";
 ## ⚡ Performance Best Practices
 
 ### React Performance
+
 - **Use `React.memo`** judiciously, only when profiling shows benefits
 - **Optimize re-renders** with `useCallback` and `useMemo` for expensive computations
 - **Code splitting** with `next/dynamic` for large components
 - **Lazy load images** using Next.js `Image` component
 
 ### Next.js Optimizations
+
 ```typescript
 // ✅ Dynamic imports for client-heavy components
 const HeavyChart = dynamic(() => import("./HeavyChart"), {
@@ -328,6 +346,7 @@ import Image from "next/image";
 ```
 
 ### Bundle Optimization
+
 - **Tree shaking**: Import only what you need from libraries
 - **Bundle analysis**: Use `npm run build` to check bundle size
 - **External scripts**: Use `next/script` for third-party scripts
@@ -337,6 +356,7 @@ import Image from "next/image";
 ## 🚨 Error Handling
 
 ### Error Boundaries
+
 ```typescript
 // app/error.tsx
 "use client";
@@ -367,6 +387,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 ```
 
 ### API Error Handling
+
 ```typescript
 // Use consistent error handling with types from @/types
 import type { ApiError } from "@/types";
@@ -389,6 +410,7 @@ const handleApiError = (error: unknown): ApiError => {
 ```
 
 ### Rules
+
 - **Always handle errors**: No silent failures
 - **User-friendly messages**: Use constants from `@/lib/constants`
 - **Log errors**: Use proper logging for debugging
@@ -399,6 +421,7 @@ const handleApiError = (error: unknown): ApiError => {
 ## 🔒 Security Guidelines
 
 ### Environment Variables
+
 ```typescript
 // ✅ Good: Proper environment variable handling
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -411,6 +434,7 @@ if (!API_URL) {
 ```
 
 ### Security Rules
+
 - **Validate all inputs**: Use Zod or similar for validation
 - **Sanitize data**: Clean user inputs before processing
 - **Use HTTPS**: Always use secure connections in production
@@ -425,7 +449,8 @@ if (!API_URL) {
 ## 📖 Documentation Standards
 
 ### Component Documentation
-```typescript
+
+````typescript
 /**
  * A reusable API key display component with copy functionality.
  *
@@ -443,9 +468,10 @@ interface ApiKeyCardProps extends BaseComponentProps {
   /** The secret API key to display */
   secretKey: string;
 }
-```
+````
 
 ### Rules
+
 - **JSDoc comments** for all public functions and components
 - **README files** for complex features or modules
 - **Code comments** for complex business logic only
@@ -457,6 +483,7 @@ interface ApiKeyCardProps extends BaseComponentProps {
 ## 🔄 Git Workflow
 
 ### Commit Messages
+
 ```
 type(scope): description
 
@@ -469,12 +496,14 @@ test(components): add unit tests for ApiKeyCard
 ```
 
 ### Branch Naming
+
 - **Features**: `feature/payment-dashboard`
 - **Bug fixes**: `fix/api-key-copy-mobile`
 - **Hotfixes**: `hotfix/security-patch`
 - **Releases**: `release/v1.0.0`
 
 ### Rules
+
 - **Small, focused commits**: One logical change per commit
 - **Descriptive messages**: Clear, present-tense descriptions
 - **No direct main commits**: Always use pull requests
@@ -485,6 +514,7 @@ test(components): add unit tests for ApiKeyCard
 ## 🧪 Testing Requirements
 
 ### Testing Strategy
+
 ```typescript
 // Component testing with React Testing Library
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -515,6 +545,7 @@ describe("ApiKeyCard", () => {
 ```
 
 ### Testing Rules
+
 - **Test user behavior**: Focus on what users do, not implementation
 - **Accessible queries**: Use Testing Library's accessibility-focused queries
 - **Mock external dependencies**: Mock API calls and third-party services
@@ -526,12 +557,14 @@ describe("ApiKeyCard", () => {
 ## 🔧 Tools & Automation
 
 ### Required Tools (Already configured)
+
 - **ESLint**: Code linting and style enforcement
 - **Prettier**: Code formatting with Tailwind CSS plugin
 - **TypeScript**: Type checking
 - **VSCode**: Workspace settings for consistency
 
 ### Available Scripts
+
 ```bash
 npm run dev          # Development server with Turbopack
 npm run build        # Production build
@@ -546,6 +579,7 @@ npm run clean        # Clean build cache
 ```
 
 ### Automation
+
 - **Pre-commit hooks**: Use `npm run check-all` before commits
 - **VSCode settings**: Auto-format on save, organize imports
 - **Bundle analysis**: Monitor bundle size changes
@@ -555,11 +589,13 @@ npm run clean        # Clean build cache
 ## 📊 Performance Monitoring
 
 ### Core Web Vitals Targets
+
 - **LCP (Largest Contentful Paint)**: < 2.5s
 - **FID (First Input Delay)**: < 100ms
 - **CLS (Cumulative Layout Shift)**: < 0.1
 
 ### Monitoring Tools
+
 - **Next.js built-in analytics**: Monitor performance metrics
 - **Lighthouse**: Regular performance audits
 - **Bundle size**: Monitor with each build
@@ -569,6 +605,7 @@ npm run clean        # Clean build cache
 ## 🎯 Code Review Checklist
 
 ### Before Submitting PR
+
 - [ ] Code follows Pay-Track style guidelines
 - [ ] All tests pass (`npm run check-all`)
 - [ ] TypeScript compiles without errors
@@ -578,6 +615,7 @@ npm run clean        # Clean build cache
 - [ ] Security considerations addressed (API key masking, input validation)
 
 ### Review Criteria
+
 - [ ] Code readability and maintainability
 - [ ] Proper error handling with constants
 - [ ] Performance optimizations applied
@@ -590,6 +628,7 @@ npm run clean        # Clean build cache
 ## 🚀 Deployment Guidelines
 
 ### Production Checklist
+
 - [ ] Environment variables configured
 - [ ] Error boundaries implemented
 - [ ] Performance optimized (images, bundles)
@@ -604,16 +643,19 @@ npm run clean        # Clean build cache
 ## 🔄 Project-Specific Patterns
 
 ### API Key Management
+
 - Always use the `ApiKeyCard` component for displaying API keys
 - Mask keys using the established pattern: `key.slice(0, 12) + "..." + key.slice(-4)`
 - Implement copy-to-clipboard with user feedback
 
 ### Constants Usage
+
 - Import constants from `@/lib/constants`
 - Use `TIME_CONSTANTS` for timeouts and delays
 - Use `ERROR_MESSAGES` and `SUCCESS_MESSAGES` for user feedback
 
 ### Component Extension
+
 - Always extend `BaseComponentProps` for new components
 - Use the `cn()` utility for conditional CSS classes
 - Follow the component template structure
@@ -640,6 +682,6 @@ npm run clean        # Clean build cache
 
 ---
 
-*Last updated: December 2024*
-*Version: 1.0*
-*Project: Pay-Track Payment Tracking Application*
+_Last updated: December 2024_
+_Version: 1.0_
+_Project: Pay-Track Payment Tracking Application_

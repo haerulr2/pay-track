@@ -5,8 +5,6 @@ export interface TabMenuItem {
   content?: React.ReactNode;
 }
 
-
-
 export interface TabMenuConfig {
   defaultValue: string;
   items: TabMenuItem[];
@@ -19,19 +17,19 @@ export const tabMenus: Record<string, TabMenuConfig> = {
       {
         id: "payments",
         label: "Payments",
-        value: "Payments"
+        value: "Payments",
       },
       {
         id: "collected-fees",
-        label: "Collected fees", 
-        value: "Collected fees"
+        label: "Collected fees",
+        value: "Collected fees",
       },
       {
         id: "transfers",
         label: "Transfers",
-        value: "Transfers"
-      }
-    ]
+        value: "Transfers",
+      },
+    ],
   },
   // // Add more page configurations as needed
   // dashboard: {
@@ -49,9 +47,9 @@ export const tabMenus: Record<string, TabMenuConfig> = {
   //     },
   //     {
   //       id: "reports",
-  //       label: "Reports", 
+  //       label: "Reports",
   //       value: "Reports"
   //     }
   //   ]
   // }
-}; 
+};

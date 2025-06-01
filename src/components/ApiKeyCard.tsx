@@ -12,7 +12,7 @@ interface ApiKeyCardProps extends BaseComponentProps {
   secretKey: string;
 }
 
-function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
+export default function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const copyToClipboard = async (text: string, keyType: string): Promise<void> => {
@@ -32,7 +32,7 @@ function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
   };
 
   return (
-    <Card className={cn("border-none shadow-none bg-gray-100", className)}>
+    <Card className={cn("border-none bg-gray-100 shadow-none", className)}>
       <CardHeader>
         <CardTitle className="text-lg font-medium">API keys</CardTitle>
       </CardHeader>
@@ -40,9 +40,9 @@ function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Publishable key</span>
+              <span className="text-muted-foreground text-sm">Publishable key</span>
               <code
-                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                className="bg-muted hover:bg-muted/80 relative cursor-pointer rounded px-[0.3rem] py-[0.2rem] font-mono text-sm transition-colors"
                 onClick={() => handleKeyClick(publishableKey, "publishable")}
                 role="button"
                 tabIndex={0}
@@ -65,9 +65,9 @@ function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Secret key</span>
+              <span className="text-muted-foreground text-sm">Secret key</span>
               <code
-                className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm cursor-pointer hover:bg-muted/80 transition-colors"
+                className="bg-muted hover:bg-muted/80 relative cursor-pointer rounded px-[0.3rem] py-[0.2rem] font-mono text-sm transition-colors"
                 onClick={() => handleKeyClick(secretKey, "secret")}
                 role="button"
                 tabIndex={0}
@@ -92,5 +92,3 @@ function ApiKeyCard({ publishableKey, secretKey, className }: ApiKeyCardProps) {
     </Card>
   );
 }
-
-export default ApiKeyCard;

@@ -17,36 +17,52 @@ export const shortCutItems = [
   { title: "Disputes", href: "/disputes", icon: Clock4 },
 ];
 
-export const productItems= [
-  { title: "Payments", icon: Wallet, children: [
-    { title: "Dispute", href: "/dispute" },
-    { title: "Radar", href: "/radar" },
-    { title: "Payment Links", href: "/payment-links" },
-    { title: "Terminal", href: "/terminal" },
-  ]},
-  { title: "Billing", icon: ReceiptText, children: [
-    { title: "Overview", href: "/billing/overview" },
-    { title: "Subscriptions", href: "/billing/subscriptions" },
-    { title: "Invoices", href: "/billing/invoices" },
-    { title: "Meters", href: "/billing/meters" },
-    { title: "Revenue Recovery", href: "/billing/revenue-recovery" },
-  ]},
-  { title: "Reporting", icon: ChartBar, children: [
-    { title: "Reports", href: "/reporting/reports " },
-    { title: "Custom Metrics", href: "/reporting/custom-metrics" },
-    { title: "Sigma", href: "/reporting/sigma" },
-    { title: "Revenue Recognition", href: "/customers/revenue-recognition" },
-    { title: "Data Management", href: "/customers/data-management" },
-  ]},
-  { title: "More", icon: Ellipsis, children: [
-    { title: "Tax", href: "/tax" },
-    { title: "Connect", href: "/connect" },
-    { title: "Identity", href: "/identity" },
-    { title: "Atlas", href: "/atlas" },
-    { title: "Issuing", href: "/issuing" },
-    { title: "Financial Connection", href: "/financial-connection" },
-    { title: "Climate", href: "/climate" },
-    { title: "Global Payouts", href: "/global-payouts" },
-    { title: "Workflows", href: "/workflows" },
-  ]},
-]
+export const productItems = [
+  {
+    title: "Payments",
+    icon: Wallet,
+    children: [
+      { title: "Dispute", href: "/dispute" },
+      { title: "Radar", href: "/radar" },
+      { title: "Payment Links", href: "/payment-links" },
+      { title: "Terminal", href: "/terminal" },
+    ],
+  },
+  {
+    title: "Billing",
+    icon: ReceiptText,
+    children: [
+      { title: "Overview", href: "/billing/overview" },
+      { title: "Subscriptions", href: "/billing/subscriptions" },
+      { title: "Invoices", href: "/billing/invoices" },
+      { title: "Meters", href: "/billing/meters" },
+      { title: "Revenue Recovery", href: "/billing/revenue-recovery" },
+    ],
+  },
+  {
+    title: "Reporting",
+    icon: ChartBar,
+    children: [
+      { title: "Reports", href: "/reporting/reports " },
+      { title: "Custom Metrics", href: "/reporting/custom-metrics" },
+      { title: "Sigma", href: "/reporting/sigma" },
+      { title: "Revenue Recognition", href: "/customers/revenue-recognition" },
+      { title: "Data Management", href: "/customers/data-management" },
+    ],
+  },
+  {
+    title: "More",
+    icon: Ellipsis,
+    children: [
+      { title: "Tax", href: "/tax" },
+      { title: "Connect", href: "/connect" },
+      { title: "Identity", href: "/identity" },
+      { title: "Atlas", href: "/atlas" },
+      { title: "Issuing", href: "/issuing" },
+      { title: "Financial Connection", href: "/financial-connection" },
+      { title: "Climate", href: "/climate" },
+      { title: "Global Payouts", href: "/global-payouts" },
+      { title: "Workflows", href: "/workflows" },
+    ],
+  },
+];

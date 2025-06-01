@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { transactions, Transaction } from "@/lib/dummy-transactions";
+import { Transaction, transactions } from "@/lib/dummy-transactions";
 import { ChevronDown, Download, Filter } from "lucide-react";
+import { useState } from "react";
 
 export default function TransactionsTable() {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -10,7 +10,7 @@ export default function TransactionsTable() {
   // Handle checkbox selection
   const handleSelectRow = (id: string) => {
     if (selectedRows.includes(id)) {
-      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
     } else {
       setSelectedRows([...selectedRows, id]);
     }
@@ -21,85 +21,85 @@ export default function TransactionsTable() {
     if (selectedRows.length === transactions.length) {
       setSelectedRows([]);
     } else {
-      setSelectedRows(transactions.map(tx => tx.id));
+      setSelectedRows(transactions.map((tx) => tx.id));
     }
   };
 
   const getPaymentIcon = (icon: string) => {
     switch (icon) {
-      case 'visa':
+      case "visa":
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-blue-700 text-white rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-blue-700 text-white">
             <span className="text-xs font-bold">VISA</span>
           </div>
         );
-      case 'mastercard':
+      case "mastercard":
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-orange-600 text-white rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-orange-600 text-white">
             <span className="text-xs font-bold">MC</span>
           </div>
         );
-      case 'amex':
+      case "amex":
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-blue-500 text-white rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-blue-500 text-white">
             <span className="text-xs font-bold">AMEX</span>
           </div>
         );
-      case 'stripe':
+      case "stripe":
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-gray-100 text-gray-600 rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-gray-100 text-gray-600">
             <span className="text-xs">S</span>
           </div>
         );
-      case 'amazon':
+      case "amazon":
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-gray-800 text-white rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-gray-800 text-white">
             <span className="text-xs">A</span>
           </div>
         );
       default:
         return (
-          <div className="flex items-center justify-center w-8 h-5 bg-gray-200 text-gray-600 rounded">
+          <div className="flex h-5 w-8 items-center justify-center rounded bg-gray-200 text-gray-600">
             <span className="text-xs">P</span>
           </div>
         );
     }
   };
 
-  const getStatusBadge = (status: Transaction['status']) => {
+  const getStatusBadge = (status: Transaction["status"]) => {
     switch (status) {
-      case 'Succeeded':
+      case "Succeeded":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800">
-            <span className="mr-1 w-1.5 h-1.5 rounded-full bg-green-600"></span>
+          <span className="inline-flex items-center rounded bg-green-100 px-2 py-1 text-xs font-semibold text-green-800">
+            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-green-600"></span>
             Succeeded
           </span>
         );
-      case 'Failed':
+      case "Failed":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-red-100 text-red-800">
-            <span className="mr-1 w-1.5 h-1.5 rounded-full bg-red-600"></span>
+          <span className="inline-flex items-center rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-800">
+            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-red-600"></span>
             Failed
           </span>
         );
-      case 'Disputed':
+      case "Disputed":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-orange-100 text-orange-800">
-            <span className="mr-1 w-1.5 h-1.5 rounded-full bg-orange-600"></span>
+          <span className="inline-flex items-center rounded bg-orange-100 px-2 py-1 text-xs font-semibold text-orange-800">
+            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-orange-600"></span>
             Disputed
           </span>
         );
-      case 'Refunded':
+      case "Refunded":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-purple-100 text-purple-800">
-            <span className="mr-1 w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+          <span className="inline-flex items-center rounded bg-purple-100 px-2 py-1 text-xs font-semibold text-purple-800">
+            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-purple-600"></span>
             Refunded
           </span>
         );
-      case 'Uncaptured':
+      case "Uncaptured":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800">
-            <span className="mr-1 w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+          <span className="inline-flex items-center rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-800">
+            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-blue-600"></span>
             Uncaptured
           </span>
         );
@@ -107,41 +107,41 @@ export default function TransactionsTable() {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden shadow-none">
+    <div className="overflow-hidden rounded-lg bg-white shadow-none dark:bg-zinc-900">
       {/* Filters */}
-      <div className="px-1 py-2 flex flex-wrap gap-2 border-b dark:border-zinc-800">
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+      <div className="flex flex-wrap gap-2 border-b px-1 py-2 dark:border-zinc-800">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Date and time</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Amount</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Currency</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Status</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Payment method</span>
-          <ChevronDown className="w-4 h-4" />
+          <ChevronDown className="h-4 w-4" />
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>More filters</span>
-          <Filter className="w-4 h-4" />
+          <Filter className="h-4 w-4" />
         </button>
 
         <div className="flex-grow"></div>
 
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1 ml-auto">
-          <Download className="w-4 h-4" />
+        <button className="ml-auto flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
+          <Download className="h-4 w-4" />
           <span>Export</span>
         </button>
-        <button className="px-3 py-1.5 text-sm rounded-md border dark:border-zinc-700 flex items-center gap-1">
+        <button className="flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm dark:border-zinc-700">
           <span>Edit columns</span>
         </button>
       </div>
@@ -149,7 +149,7 @@ export default function TransactionsTable() {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="text-sm text-left text-gray-500 dark:text-gray-400 tracking-wider">
+          <thead className="text-left text-sm tracking-wider text-gray-500 dark:text-gray-400">
             <tr className="border-b dark:border-zinc-800">
               <th className="px-1 py-2">
                 <input
@@ -168,11 +168,11 @@ export default function TransactionsTable() {
               <th>Decline reason</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-xs">
+          <tbody className="divide-y divide-gray-200 text-xs dark:divide-zinc-800">
             {transactions.map((tx) => (
               <tr
                 key={tx.id}
-                className="hover:bg-gray-50 dark:hover:bg-zinc-800/50 cursor-pointer"
+                className="cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-800/50"
                 onClick={() => {}}
               >
                 <td className="px-1 py-2">
@@ -183,36 +183,20 @@ export default function TransactionsTable() {
                     onChange={() => handleSelectRow(tx.id)}
                   />
                 </td>
-                <td className=" font-medium text-right pr-2">
-                  {'$ ' + tx.amount}
-                </td>
-                <td className="text-gray-600 dark:text-gray-400">
-                  {tx.currency}
-                </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {getStatusBadge(tx.status)}
-                </td>
+                <td className=" pr-2 text-right font-medium">{"$ " + tx.amount}</td>
+                <td className="text-gray-600 dark:text-gray-400">{tx.currency}</td>
+                <td className=" text-gray-600 dark:text-gray-400">{getStatusBadge(tx.status)}</td>
                 <td className="">
                   <div className="flex items-center space-x-2">
                     {getPaymentIcon(tx.paymentIcon)}
                     <span>{tx.paymentMethod}</span>
                   </div>
                 </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {tx.description}
-                </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {tx.customer}
-                </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {tx.date}
-                </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {tx.refundedDate || "—"}
-                </td>
-                <td className=" text-gray-600 dark:text-gray-400">
-                  {tx.declineReason || "—"}
-                </td>
+                <td className=" text-gray-600 dark:text-gray-400">{tx.description}</td>
+                <td className=" text-gray-600 dark:text-gray-400">{tx.customer}</td>
+                <td className=" text-gray-600 dark:text-gray-400">{tx.date}</td>
+                <td className=" text-gray-600 dark:text-gray-400">{tx.refundedDate || "—"}</td>
+                <td className=" text-gray-600 dark:text-gray-400">{tx.declineReason || "—"}</td>
               </tr>
             ))}
           </tbody>
@@ -220,7 +204,7 @@ export default function TransactionsTable() {
       </div>
 
       {/* Footer with results count */}
-      <div className="px-6 py-3 border-t dark:border-zinc-800 text-xs text-gray-500 dark:text-gray-400">
+      <div className="border-t px-6 py-3 text-xs text-gray-500 dark:border-zinc-800 dark:text-gray-400">
         {transactions.length} results
       </div>
     </div>
