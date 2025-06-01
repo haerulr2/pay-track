@@ -34,7 +34,7 @@ interface DashboardLayoutProps extends Pick<BaseComponentProps, "children"> {
  * - Dark mode support
  * - Mobile-friendly design with collapsible sidebar
  */
-function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900">
       {/* Sidebar Navigation */}
@@ -45,12 +45,8 @@ function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main Content Area */}
       <main className="md:pl-64">
-        <div className="min-h-screen pt-16 pb-16">
-          {children}
-        </div>
+        <div className="min-h-screen pb-16 pt-16">{children}</div>
       </main>
     </div>
   );
 }
-
-export default DashboardLayout;

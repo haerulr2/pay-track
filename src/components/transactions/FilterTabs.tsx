@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { FilterTabItem } from "@/lib/filterTabs-menu";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface FilterTabsProps {
   items: FilterTabItem[];
@@ -12,7 +12,7 @@ interface FilterTabsProps {
 
 export default function FilterTabs({ items, onTabClick, className }: FilterTabsProps) {
   const [activeTab, setActiveTab] = useState<string>(
-    items.find(item => item.isActive)?.id || items[0]?.id || ""
+    items.find((item) => item.isActive)?.id || items[0]?.id || ""
   );
 
   const handleTabClick = (item: FilterTabItem) => {
@@ -21,11 +21,13 @@ export default function FilterTabs({ items, onTabClick, className }: FilterTabsP
   };
 
   const TabContent = ({ item, isActive }: { item: FilterTabItem; isActive: boolean }) => (
-    <div className={cn(
-      "relative flex-1 px-4 py-2 cursor-pointer rounded-md shadow-none",
-      "bg-white border border-gray-200",
-      isActive && "z-10 border-2 border-blue-600"
-    )}>
+    <div
+      className={cn(
+        "relative flex-1 cursor-pointer rounded-md px-4 py-2 shadow-none",
+        "border border-gray-200 bg-white",
+        isActive && "z-10 border-2 border-blue-600"
+      )}
+    >
       <div
         className="flex-1 cursor-pointer text-sm font-medium"
         role="tab"
@@ -33,27 +35,17 @@ export default function FilterTabs({ items, onTabClick, className }: FilterTabsP
         tabIndex={isActive ? 0 : -1}
         onClick={() => handleTabClick(item)}
       >
-        <span className="text-sm text-gray-500 block mb-1">{item.label}</span>
-        <span className="text-sm font-medium block">{item.count}</span>
+        <span className="mb-1 block text-sm text-gray-500">{item.label}</span>
+        <span className="block text-sm font-medium">{item.count}</span>
       </div>
     </div>
   );
 
   return (
-    <div
-      role="tablist"
-      className={cn(
-        "flex overflow-x-auto gap-2 mb-1",
-        className
-      )}
-    >
+    <div role="tablist" className={cn("mb-1 flex gap-2 overflow-x-auto", className)}>
       {items.map((item) => (
-        <TabContent
-          key={item.id}
-          item={item}
-          isActive={activeTab === item.id}
-        />
+        <TabContent key={item.id} item={item} isActive={activeTab === item.id} />
       ))}
     </div>
   );
-} 
+}

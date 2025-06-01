@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
 import Sidebar from "@/components/layouts/Sidebar";
 import Topbar from "@/components/layouts/Topbar";
+import { ReactNode } from "react";
 
 interface TransactionsLayoutProps {
   children: ReactNode;
@@ -17,10 +17,8 @@ export default function TransactionsLayout({ children }: TransactionsLayoutProps
 
       {/* Main content */}
       <main className="md:pl-64">
-        <div className="min-h-screen pt-16 pb-16">
-          {children}
-        </div>
+        <div className="min-h-screen pb-16 pt-16">{children}</div>
       </main>
     </div>
   );
-} 
+}

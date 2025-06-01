@@ -21,28 +21,28 @@ export const filterTabsMenus: Record<string, FilterTabsConfig> = {
       {
         id: "succeeded",
         label: "Succeeded",
-        count: 2
+        count: 2,
       },
       {
         id: "refunded",
         label: "Refunded",
-        count: 0
+        count: 0,
       },
       {
         id: "disputed",
         label: "Disputed",
-        count: 0
+        count: 0,
       },
       {
         id: "failed",
         label: "Failed",
-        count: 1
+        count: 1,
       },
       {
         id: "uncaptured",
         label: "Uncaptured",
-        count: 0
-      }
-    ]
-  }
-}; 
+        count: 0,
+      },
+    ],
+  },
+};

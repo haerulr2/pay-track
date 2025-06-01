@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import Chart from "@/components/Chart";
 import MetricCard from "@/components/MetricCard";
 import Reveal from "@/components/Reveal";
@@ -24,7 +22,7 @@ import { metrics, transactions } from "@/lib/dummy-state";
  * <DashboardPage />
  * ```
  */
-function DashboardPage() {
+export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-12 px-1 py-8">
       {/* Today's Overview Section */}
@@ -106,9 +104,7 @@ function DashboardPage() {
         {/* Recent Transactions */}
         <Reveal>
           <div className="bg-white p-4 dark:bg-zinc-900">
-            <h3 className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-              Recent Transactions
-            </h3>
+            <h3 className="mb-4 text-sm text-gray-500 dark:text-gray-400">Recent Transactions</h3>
             <ul className="space-y-2 text-sm">
               {transactions.map((transaction) => (
                 <li
@@ -127,4 +123,3 @@ function DashboardPage() {
   );
 }
 
-export default DashboardPage;

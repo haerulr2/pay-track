@@ -6,7 +6,6 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ![PayTrack Preview](https://github.com/user-attachments/assets/b30a0122-563c-492b-833e-0f8902844afa)
 
-
 ---
 
 ## 🚀 Tech Stack
@@ -54,4 +53,3 @@ MIT License – [read here](./LICENSE)
 Inspired by the UI/UX structure of [stripe.com](https://stripe.com) and rebuilt as a frontend architecture showcase.
 
 ---
-

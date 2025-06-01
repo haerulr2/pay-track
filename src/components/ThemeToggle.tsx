@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import * as React from "react";
 
-export function ThemeToggle() {
+export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -18,7 +18,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <Button variant="ghost" size="icon" iconSize="md">
-        <div className="w-5 h-5" />
+        <div className="h-5 w-5" />
       </Button>
     );
   }
@@ -32,29 +32,25 @@ export function ThemeToggle() {
       aria-label="Toggle theme"
     >
       <motion.div
-        animate={{ 
+        animate={{
           rotate: theme === "dark" ? 0 : 360,
-          scale: [1, 1.15, 1]
+          scale: [1, 1.15, 1],
         }}
-        transition={{ 
+        transition={{
           rotate: {
-            type: "spring", 
-            stiffness: 160, 
-            damping: 15
+            type: "spring",
+            stiffness: 160,
+            damping: 15,
           },
           scale: {
             duration: 0.3,
-            times: [0, 0.5, 1]
-          }
+            times: [0, 0.5, 1],
+          },
         }}
-        className="relative w-5 h-5"
+        className="relative h-5 w-5"
       >
-        {theme === "dark" ? (
-          <Moon className="h-5 w-5" />
-        ) : (
-          <Sun className="h-5 w-5" />
-        )}
+        {theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
       </motion.div>
     </Button>
   );
-}  
+}

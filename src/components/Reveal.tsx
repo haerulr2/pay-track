@@ -1,16 +1,16 @@
 // components/Reveal.tsx
 "use client";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 interface RevealProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const Reveal: React.FC<RevealProps> = ({ children, className }) => {
+export default function Reveal({ children, className }: RevealProps) {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.3 });
 
@@ -33,6 +33,4 @@ const Reveal: React.FC<RevealProps> = ({ children, className }) => {
       {children}
     </motion.div>
   );
-}
-
-export default Reveal;
+};
