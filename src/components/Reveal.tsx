@@ -33,4 +33,4 @@ export default function Reveal({ children, className }: RevealProps) {
       {children}
     </motion.div>
   );
-};
+}
