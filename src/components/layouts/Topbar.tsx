@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 import ThemeToggle from "@/components/ThemeToggle";
+import SearchDialog from "@/components/SearchDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +16,7 @@ import {
 
 export default function Topbar() {
   const pathname = usePathname();
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
   const getBreadcrumb = (path: string) => {
     if (path === "/dashboard" || path === "/") {
@@ -53,18 +55,14 @@ export default function Topbar() {
 
           <div className="h-4 w-px bg-slate-200 dark:bg-slate-800" />
 
-          {/* ⌘K Quick Search Trigger Button */}
+          {/* Quick Search Trigger Button */}
           <button
             type="button"
-            className="flex h-9 w-60 cursor-pointer items-center justify-between rounded-lg border border-slate-200/90 bg-slate-50/70 px-3 text-xs text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-100/80 focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:bg-slate-900"
+            onClick={() => setIsSearchOpen(true)}
+            className="flex h-9 w-64 cursor-pointer items-center gap-2.5 rounded-lg border border-slate-200/90 bg-slate-50/70 px-3 text-xs text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-100/80 focus:border-emerald-500 focus:outline-none dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:bg-slate-900"
           >
-            <div className="flex items-center gap-2">
-              <Search className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
-              <span>Search transactions, IDs...</span>
-            </div>
-            <kbd className="shadow-xs pointer-events-none inline-flex h-5 select-none items-center gap-0.5 rounded border border-slate-200 bg-white px-1.5 font-mono text-[10px] font-medium text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
-              ⌘K
-            </kbd>
+            <Search className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
+            <span>Search transactions, pages...</span>
           </button>
         </div>
 
@@ -180,6 +178,9 @@ export default function Topbar() {
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Search Modal Dialog */}
+      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 }

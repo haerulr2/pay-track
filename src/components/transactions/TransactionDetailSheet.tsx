@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
@@ -26,12 +27,19 @@ export interface TransactionDetailSheetProps {
   onClose: () => void;
 }
 
+const emptySubscribe = () => () => {};
+
 export function TransactionDetailSheet({
   transaction,
   isOpen,
   onClose,
 }: TransactionDetailSheetProps) {
   const [copied, setCopied] = useState(false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   // Close on Escape key press
   useEffect(() => {
@@ -63,7 +71,7 @@ export function TransactionDetailSheet({
     }
   };
 
-  if (!isOpen || !transaction) {
+  if (!isOpen || !transaction || !mounted) {
     return null;
   }
 
@@ -182,7 +190,7 @@ export function TransactionDetailSheet({
     { title: "Settled / Paid Out", ...settledStep },
   ];
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {/* Backdrop */}
       <motion.div
@@ -191,18 +199,17 @@ export function TransactionDetailSheet({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="backdrop-blur-xs fixed inset-0 z-50 bg-black/40 transition-opacity"
+        className="z-100 fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         aria-hidden="true"
       />
 
-      {/* Sheet container */}
+      {/* Slide-over Drawer */}
       <motion.div
-        key="sheet"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 300 }}
-        className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col overflow-y-auto border-l border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-[#111827]"
+        className="z-100 fixed inset-y-0 right-0 flex w-full max-w-md flex-col overflow-y-auto border-l border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-[#111827]"
         role="dialog"
         aria-modal="true"
         aria-label={`Transaction ${transaction.id} details`}
@@ -419,7 +426,8 @@ export function TransactionDetailSheet({
           </Button>
         </div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 
