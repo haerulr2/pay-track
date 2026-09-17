@@ -40,7 +40,6 @@ const DropdownMenuItem = React.forwardRef<
     inset?: boolean;
     variant?: "default" | "destructive";
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(({ className, inset, variant = "default", ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
