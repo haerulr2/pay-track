@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Transaction, TransactionStatus } from "@/types";
 import { transactions as dummyTransactions } from "@/lib/dummy-transactions";
+import { exportTransactionsToCSV } from "@/lib/export";
 import { TransactionDetailSheet } from "./TransactionDetailSheet";
 import { Button } from "@/components/ui/button";
 
@@ -97,54 +98,16 @@ export default function TransactionsTable() {
     setIsSheetOpen(true);
   };
 
-  // CSV Export utility
-  const exportToCSV = (itemsToExport: Transaction[], filename: string = "transactions.csv") => {
-    const headers = [
-      "Transaction ID",
-      "Customer",
-      "Email",
-      "Gross Amount",
-      "Fee",
-      "Net Amount",
-      "Currency",
-      "Status",
-      "Payment Method",
-      "Date",
-      "Description",
-    ];
-
-    const rows = itemsToExport.map((t) => [
-      t.id,
-      `"${t.customer.replace(/"/g, '""')}"`,
-      `"${t.customerEmail.replace(/"/g, '""')}"`,
-      t.grossAmount,
-      t.fee,
-      t.netAmount,
-      t.currency,
-      t.status,
-      `"${t.paymentMethod.replace(/"/g, '""')}"`,
-      `"${t.date.replace(/"/g, '""')}"`,
-      `"${t.description.replace(/"/g, '""')}"`,
-    ]);
-
-    const csvContent = [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const handleExportAll = () => {
-    exportToCSV(filteredTransactions, `transactions-${selectedStatus.toLowerCase()}.csv`);
+    exportTransactionsToCSV(
+      filteredTransactions,
+      `transactions-${selectedStatus.toLowerCase()}.csv`
+    );
   };
 
   const handleExportSelected = () => {
     const selected = transactionsList.filter((tx) => selectedRows.includes(tx.id));
-    exportToCSV(selected, `transactions-selected-${selected.length}.csv`);
+    exportTransactionsToCSV(selected, `transactions-selected-${selected.length}.csv`);
   };
 
   // Payment brand badge

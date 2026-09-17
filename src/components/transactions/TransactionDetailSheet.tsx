@@ -19,6 +19,7 @@ import {
   Mail,
 } from "lucide-react";
 import { Transaction, TransactionStatus } from "@/types";
+import { exportTransactionsToCSV } from "@/lib/export";
 import { Button } from "@/components/ui/button";
 
 export interface TransactionDetailSheetProps {
@@ -412,7 +413,11 @@ export function TransactionDetailSheet({
             Issue Refund
           </Button>
 
-          <Button variant="outline" className="w-full justify-center">
+          <Button
+            variant="outline"
+            className="w-full justify-center"
+            onClick={() => exportTransactionsToCSV([transaction], `receipt-${transaction.id}.csv`)}
+          >
             <Download className="mr-2 h-4 w-4" />
             Download Receipt
           </Button>

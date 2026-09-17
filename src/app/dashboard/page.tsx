@@ -21,6 +21,7 @@ import MetricCard from "@/components/MetricCard";
 import Reveal from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { metrics, transactions } from "@/lib/dummy-state";
+import { exportTransactionsToCSV } from "@/lib/export";
 import { formatCurrency } from "@/lib/utils";
 import type { Transaction } from "@/types";
 
@@ -33,6 +34,10 @@ export default function DashboardPage() {
     <ArrowDownRight key="outflow" className="h-4 w-4" />,
     <Scale key="scale" className="h-4 w-4" />,
   ];
+
+  const handleExportStatement = () => {
+    exportTransactionsToCSV(transactions, `statement-${new Date().toISOString().slice(0, 10)}.csv`);
+  };
 
   const getMethodBadge = (tx: Transaction) => {
     const isCard =
@@ -141,6 +146,7 @@ export default function DashboardPage() {
             <Button
               variant="outline"
               size="sm"
+              onClick={handleExportStatement}
               className="shadow-xs cursor-pointer gap-2 border-slate-200 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-[#111827] dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
             >
               <Download className="h-3.5 w-3.5" />
