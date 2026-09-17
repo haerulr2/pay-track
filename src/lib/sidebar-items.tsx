@@ -34,7 +34,7 @@ export const productItems = [
     children: [
       { title: "Overview", href: "/billing/overview" },
       { title: "Subscriptions", href: "/billing/subscriptions" },
-      { title: "Invoices", href: "/billing/invoices" },
+      { title: "Invoices", href: "/invoices" },
       { title: "Meters", href: "/billing/meters" },
       { title: "Revenue Recovery", href: "/billing/revenue-recovery" },
     ],
