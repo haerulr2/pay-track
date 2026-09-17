@@ -47,7 +47,7 @@ export default function Topbar() {
             <Settings />
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" iconSize="md">
                 <Plus className="rounded-full bg-blue-500 text-white" />
               </Button>
