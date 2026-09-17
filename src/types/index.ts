@@ -51,3 +51,56 @@ export interface FormState<T = Record<string, unknown>> {
   isSubmitting: boolean;
   isValid: boolean;
 }
+
+// Financial & Transaction Models
+export type TransactionStatus =
+  "Succeeded" | "Pending" | "Failed" | "Refunded" | "Disputed" | "Uncaptured";
+
+export type PaymentMethodType = "card" | "wire" | "ach" | "wallet";
+
+export interface TimelineStep {
+  step: string;
+  timestamp: string;
+  done: boolean;
+}
+
+export interface Transaction {
+  id: string;
+  amount: string;
+  grossAmount: number;
+  fee: number;
+  netAmount: number;
+  currency: string;
+  paymentMethod: string;
+  paymentIcon: string;
+  methodType: PaymentMethodType;
+  description: string;
+  customer: string;
+  name?: string; // Backwards-compatible alias for customer in legacy views
+  customerEmail: string;
+  date: string;
+  status: TransactionStatus;
+  refundedDate?: string;
+  declineReason?: string;
+  timeline: TimelineStep[];
+}
+
+// Dashboard Financial Metrics & Charts
+export interface Metric {
+  title: string;
+  value: string;
+  change: string;
+  subtitle?: string;
+  isPositive?: boolean;
+}
+
+export interface CashFlowPoint {
+  name: string;
+  inflow: number;
+  outflow: number;
+  net: number;
+}
+
+export type CashFlowTimeframe = "7D" | "30D" | "90D" | "YTD";
+
+export type CashFlowSeries = Record<CashFlowTimeframe, CashFlowPoint[]>;
