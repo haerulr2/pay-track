@@ -6,6 +6,7 @@ import { Plus, Trash2, X, Receipt } from "lucide-react";
 import { Invoice, InvoiceLineItem } from "@/lib/dummy-invoices";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 export interface CreateInvoiceDialogProps {
   isOpen: boolean;
@@ -32,6 +33,8 @@ export function CreateInvoiceDialog({ isOpen, onClose, onCreate }: CreateInvoice
     () => true,
     () => false
   );
+
+  useScrollLock(isOpen);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

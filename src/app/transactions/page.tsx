@@ -1,12 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ArrowUpRight, Clock, CheckCircle2, AlertTriangle, Plus, FileText } from "lucide-react";
 import TransactionsTable from "@/components/transactions/TransactionsTable";
-import { transactions } from "@/lib/dummy-transactions";
+import CreateChargeDialog from "@/components/transactions/CreateChargeDialog";
+import { transactions as initialTransactions } from "@/lib/dummy-transactions";
+import { exportTransactionsToCSV } from "@/lib/export";
+import { Transaction } from "@/types";
 import { Button } from "@/components/ui/button";
 
 export default function TransactionsPage() {
+  const [transactionsList, setTransactionsList] = useState<Transaction[]>(initialTransactions);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
   // Real-time metric computations from transaction ledger
   const metrics = useMemo(() => {
     let totalVolume = 0;
@@ -14,7 +20,7 @@ export default function TransactionsPage() {
     let pendingVolume = 0;
     let disputedCount = 0;
 
-    transactions.forEach((tx) => {
+    transactionsList.forEach((tx) => {
       totalVolume += tx.grossAmount;
       if (tx.status === "Succeeded") {
         settledCount += 1;
@@ -27,16 +33,27 @@ export default function TransactionsPage() {
       }
     });
 
-    const disputedRate = ((disputedCount / transactions.length) * 100).toFixed(2);
+    const disputedRate =
+      transactionsList.length > 0
+        ? ((disputedCount / transactionsList.length) * 100).toFixed(2)
+        : "0.00";
 
     return {
       totalVolume,
       settledCount,
-      totalCount: transactions.length,
+      totalCount: transactionsList.length,
       pendingVolume,
       disputedRate,
     };
-  }, []);
+  }, [transactionsList]);
+
+  const handleCreateCharge = (newTx: Transaction) => {
+    setTransactionsList((prev) => [newTx, ...prev]);
+  };
+
+  const handleUpdateTransaction = (updatedTx: Transaction) => {
+    setTransactionsList((prev) => prev.map((tx) => (tx.id === updatedTx.id ? updatedTx : tx)));
+  };
 
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -63,6 +80,7 @@ export default function TransactionsPage() {
           <Button
             variant="outline"
             size="sm"
+            onClick={() => exportTransactionsToCSV(transactionsList, "transactions-statements.csv")}
             className="h-9 gap-1.5 border-slate-200 text-xs text-slate-700 dark:border-slate-700 dark:text-slate-300"
           >
             <FileText className="h-3.5 w-3.5" />
@@ -71,6 +89,7 @@ export default function TransactionsPage() {
 
           <Button
             size="sm"
+            onClick={() => setIsCreateDialogOpen(true)}
             className="h-9 gap-1.5 bg-slate-900 text-xs font-medium text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
           >
             <Plus className="h-3.5 w-3.5" />
@@ -165,8 +184,18 @@ export default function TransactionsPage() {
 
       {/* Primary Table Ledger */}
       <section aria-label="Transactions Data Ledger">
-        <TransactionsTable />
+        <TransactionsTable
+          transactions={transactionsList}
+          onUpdateTransaction={handleUpdateTransaction}
+        />
       </section>
+
+      {/* Create Charge Dialog */}
+      <CreateChargeDialog
+        isOpen={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onCreate={handleCreateCharge}
+      />
     </div>
   );
 }

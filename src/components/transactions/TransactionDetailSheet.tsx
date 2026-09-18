@@ -27,6 +27,7 @@ export interface TransactionDetailSheetProps {
   transaction: Transaction | null;
   isOpen: boolean;
   onClose: () => void;
+  onUpdateTransaction?: (transaction: Transaction) => void;
 }
 
 const emptySubscribe = () => () => {};
@@ -35,8 +36,13 @@ export function TransactionDetailSheet({
   transaction,
   isOpen,
   onClose,
+  onUpdateTransaction,
 }: TransactionDetailSheetProps) {
   const [copied, setCopied] = useState(false);
+  const [isRefunding, setIsRefunding] = useState(false);
+  const [refundReason, setRefundReason] = useState("Customer Request");
+  const [refundSuccess, setRefundSuccess] = useState<string | null>(null);
+  const [showApiLog, setShowApiLog] = useState(false);
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -67,6 +73,34 @@ export function TransactionDetailSheet({
     } catch {
       // Fallback
     }
+  };
+
+  const handleConfirmRefund = () => {
+    if (!transaction) return;
+    const now = new Date();
+    const refundedDate = now.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    const updatedTx: Transaction = {
+      ...transaction,
+      status: "Refunded",
+      refundedDate,
+      timeline: transaction.timeline.map((step) =>
+        step.step.includes("Settled")
+          ? { ...step, timestamp: `Refunded: ${refundedDate}`, done: true }
+          : step
+      ),
+    };
+
+    onUpdateTransaction?.(updatedTx);
+    setIsRefunding(false);
+    setRefundSuccess(
+      `Refund of ${formatCurrency(transaction.netAmount, transaction.currency)} has been issued successfully.`
+    );
+    setTimeout(() => setRefundSuccess(null), 4000);
   };
 
   if (!mounted) {
@@ -248,6 +282,54 @@ export function TransactionDetailSheet({
 
           {/* Scrollable Content Area */}
           <div className="min-h-0 flex-1 space-y-6 overflow-y-auto px-6 py-5">
+            {/* Action feedback message */}
+            {refundSuccess && (
+              <div className="flex items-center gap-2 rounded-lg bg-emerald-50 p-3 text-xs font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                <Check className="h-4 w-4 shrink-0" />
+                <span>{refundSuccess}</span>
+              </div>
+            )}
+
+            {/* API Log JSON Viewer Modal/Collapsible */}
+            {showApiLog && (
+              <div className="rounded-xl border border-slate-200 bg-slate-900 p-4 font-mono text-xs text-slate-100 dark:border-slate-800">
+                <div className="mb-2 flex items-center justify-between border-b border-slate-800 pb-2">
+                  <span className="font-semibold text-emerald-400">
+                    GET /v1/charges/{transaction.id}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowApiLog(false)}
+                    className="text-slate-400 hover:text-white"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+                <pre className="max-h-48 overflow-y-auto text-[11px] leading-relaxed text-slate-300">
+                  {JSON.stringify(
+                    {
+                      id: transaction.id,
+                      object: "charge",
+                      amount: transaction.grossAmount * 100,
+                      amount_captured: transaction.grossAmount * 100,
+                      amount_refunded:
+                        transaction.status === "Refunded" ? transaction.grossAmount * 100 : 0,
+                      currency: transaction.currency.toLowerCase(),
+                      customer: transaction.customer,
+                      customer_email: transaction.customerEmail,
+                      status: transaction.status.toLowerCase(),
+                      payment_method: transaction.paymentMethod,
+                      created: transaction.date,
+                      refunded: transaction.status === "Refunded",
+                      refunded_at: transaction.refundedDate || null,
+                    },
+                    null,
+                    2
+                  )}
+                </pre>
+              </div>
+            )}
+
             {/* Amount Hero Card */}
             <div className="rounded-xl border border-slate-200/80 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-[#0B0F17]/50">
               <div className="text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -400,13 +482,62 @@ export function TransactionDetailSheet({
 
           {/* Pinned Bottom Actions */}
           <div className="flex shrink-0 flex-col gap-2.5 border-t border-slate-200 bg-slate-50/50 p-5 dark:border-slate-800 dark:bg-[#111827]">
-            <Button
-              variant="outline"
-              className="w-full justify-center border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:border-rose-900/60 dark:text-rose-400 dark:hover:bg-rose-950/40"
-            >
-              <RotateCcw className="mr-2 h-4 w-4" />
-              Issue Refund
-            </Button>
+            {isRefunding ? (
+              <div className="rounded-lg border border-rose-200 bg-rose-50/60 p-3.5 dark:border-rose-900/50 dark:bg-rose-950/20">
+                <div className="mb-1 text-xs font-semibold text-rose-800 dark:text-rose-300">
+                  Confirm Full Refund
+                </div>
+                <p className="mb-2.5 text-[11px] text-rose-600 dark:text-rose-400">
+                  Are you sure you want to refund{" "}
+                  {formatCurrency(transaction.netAmount, transaction.currency)}? This action cannot
+                  be reversed.
+                </p>
+                <div className="mb-3">
+                  <label className="mb-1 block text-[10px] font-semibold uppercase text-rose-800 dark:text-rose-300">
+                    Reason for Refund
+                  </label>
+                  <select
+                    value={refundReason}
+                    onChange={(e) => setRefundReason(e.target.value)}
+                    className="w-full rounded border border-rose-200 bg-white px-2 py-1 text-xs text-slate-800 focus:outline-none dark:border-rose-800 dark:bg-slate-900 dark:text-slate-100"
+                  >
+                    <option value="Customer Request">Customer Request</option>
+                    <option value="Duplicate Charge">Duplicate Charge</option>
+                    <option value="Fraudulent Activity">Fraudulent Activity</option>
+                  </select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setIsRefunding(false)}
+                    className="h-8 flex-1 text-xs"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={handleConfirmRefund}
+                    className="h-8 flex-1 bg-rose-600 text-xs font-semibold text-white hover:bg-rose-700"
+                  >
+                    Confirm Refund
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              transaction.status === "Succeeded" && (
+                <Button
+                  variant="outline"
+                  onClick={() => setIsRefunding(true)}
+                  className="w-full justify-center border-rose-200 text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:border-rose-900/60 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Issue Refund
+                </Button>
+              )
+            )}
 
             <Button
               variant="outline"
@@ -421,10 +552,11 @@ export function TransactionDetailSheet({
 
             <Button
               variant="ghost"
+              onClick={() => setShowApiLog((prev) => !prev)}
               className="w-full justify-center text-slate-600 dark:text-slate-400"
             >
               <FileCode className="mr-2 h-4 w-4" />
-              View API Log
+              {showApiLog ? "Hide API Log" : "View API Log"}
             </Button>
           </div>
         </motion.div>

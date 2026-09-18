@@ -20,8 +20,17 @@ import { Button } from "@/components/ui/button";
 
 type FilterStatus = "All" | "Succeeded" | "Pending" | "Failed" | "Refunded";
 
-export default function TransactionsTable() {
-  const [transactionsList] = useState<Transaction[]>(dummyTransactions);
+export interface TransactionsTableProps {
+  transactions?: Transaction[];
+  onUpdateTransaction?: (transaction: Transaction) => void;
+}
+
+export default function TransactionsTable({
+  transactions: externalTransactions,
+  onUpdateTransaction: externalOnUpdate,
+}: TransactionsTableProps = {}) {
+  const [internalList, setInternalList] = useState<Transaction[]>(dummyTransactions);
+  const transactionsList = externalTransactions || internalList;
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<FilterStatus>("All");
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -473,6 +482,14 @@ export default function TransactionsTable() {
         transaction={selectedTransaction}
         isOpen={isSheetOpen}
         onClose={() => setIsSheetOpen(false)}
+        onUpdateTransaction={(updatedTx) => {
+          if (externalOnUpdate) {
+            externalOnUpdate(updatedTx);
+          } else {
+            setInternalList((prev) => prev.map((t) => (t.id === updatedTx.id ? updatedTx : t)));
+          }
+          setSelectedTransaction(updatedTx);
+        }}
       />
     </div>
   );
