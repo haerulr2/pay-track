@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Check, ChevronRight, CreditCard, FileText, Link2, Plus, Search } from "lucide-react";
+import { Bell, ChevronRight, CreditCard, FileText, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -22,15 +22,6 @@ export default function Topbar() {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isChargeOpen, setIsChargeOpen] = React.useState(false);
   const [isInvoiceOpen, setIsInvoiceOpen] = React.useState(false);
-  const [linkCopied, setLinkCopied] = React.useState(false);
-
-  const handleCopyPaymentLink = () => {
-    if (typeof navigator !== "undefined") {
-      navigator.clipboard.writeText("https://pay.paytrack.dev/plink_98a72bdf1");
-      setLinkCopied(true);
-      setTimeout(() => setLinkCopied(false), 2000);
-    }
-  };
 
   const getBreadcrumb = (path: string) => {
     if (path === "/dashboard" || path === "/") {
@@ -122,15 +113,6 @@ export default function Topbar() {
               >
                 <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <span>Create Invoice</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={handleCopyPaymentLink} className="cursor-pointer gap-2">
-                {linkCopied ? (
-                  <Check className="h-4 w-4 text-emerald-500" />
-                ) : (
-                  <Link2 className="h-4 w-4 text-slate-500" />
-                )}
-                <span>{linkCopied ? "Link Copied!" : "Copy Payment Link"}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
