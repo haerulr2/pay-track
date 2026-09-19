@@ -1,6 +1,6 @@
 import type { Customer } from "@/lib/dummy-customers";
 import type { Invoice } from "@/lib/dummy-invoices";
-import type { Transaction } from "@/types";
+import type { AnalyticsSnapshot, Transaction } from "@/types";
 
 /**
  * Escapes a cell value for standard CSV formatting (RFC 4180).
@@ -173,5 +173,62 @@ export function exportCustomersToCSV(
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Exports analytics summary and trends to a CSV report.
+ */
+export function exportAnalyticsToCSV(
+  snapshot: AnalyticsSnapshot,
+  filename: string = `analytics-report-${snapshot.timeframe.toLowerCase()}-${new Date().toISOString().slice(0, 10)}.csv`
+): void {
+  if (typeof window === "undefined") return;
+
+  const lines: string[] = [
+    `"PAY-TRACK ANALYTICS REPORT"`,
+    `"Timeframe: ${snapshot.timeframe}"`,
+    `"Generated At: ${new Date().toISOString()}"`,
+    `""`,
+    `"=== EXECUTIVE KPI SUMMARY ==="`,
+    `"Metric","Value","Change vs Prior Period"`,
+    `"Gross Processing Volume","$${snapshot.kpis.grossVolume.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}","+${snapshot.kpis.grossVolumeChange}%"`,
+    `"Net Settlement Volume","$${snapshot.kpis.netSettlement.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}","+${snapshot.kpis.netSettlementChange}%"`,
+    `"Authorization Success Rate","${snapshot.kpis.authorizationRate}%","+${snapshot.kpis.authorizationRateChange}%"`,
+    `"Dispute & Refund Ratio","${snapshot.kpis.disputeRate}%","${snapshot.kpis.disputeRateChange}%"`,
+    `""`,
+    `"=== VOLUME & CASH FLOW TREND ==="`,
+    `"Date","Label","Gross Volume","Net Settlement","Processing Fees","Transaction Count"`,
+    ...snapshot.volumeTrend.map(
+      (v) =>
+        `${escapeCSV(v.date)},${escapeCSV(v.label)},${v.gross.toFixed(2)},${v.net.toFixed(2)},${v.fees.toFixed(2)},${v.count}`
+    ),
+    `""`,
+    `"=== PAYMENT METHOD DISTRIBUTION ==="`,
+    `"Payment Method","Category","Volume (USD)","Percentage Share","Transaction Count"`,
+    ...snapshot.methodDistribution.map(
+      (m) =>
+        `${escapeCSV(m.name)},${escapeCSV(m.methodType)},${m.volume.toFixed(2)},${m.percentage.toFixed(1)}%,${m.count}`
+    ),
+    `""`,
+    `"=== PAYMENT DECLINE BREAKDOWN ==="`,
+    `"Decline Reason","Category","Failures Count","Percentage of Total Declines","Recommended Mitigation"`,
+    ...snapshot.declineReasons.map(
+      (d) =>
+        `${escapeCSV(d.reason)},${escapeCSV(d.category)},${d.count},${d.percentage.toFixed(1)}%,${escapeCSV(d.suggestedAction)}`
+    ),
+  ];
+
+  const csvContent = "\uFEFF" + lines.join("\r\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const downloadLink = document.createElement("a");
+
+  downloadLink.setAttribute("href", url);
+  downloadLink.setAttribute("download", filename);
+  downloadLink.style.visibility = "hidden";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
   URL.revokeObjectURL(url);
 }

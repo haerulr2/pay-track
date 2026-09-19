@@ -5,6 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import {
   ArrowLeftRight,
   ArrowRight,
+  BarChart3,
   CreditCard,
   FileText,
   History,
@@ -87,6 +88,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
     { title: "Transactions Ledger", href: "/transactions", icon: ArrowLeftRight },
     { title: "Invoices & Billing", href: "/invoices", icon: FileText },
     { title: "Customer Directory", href: "/customers", icon: Users },
+    { title: "Payment Analytics", href: "/analytics", icon: BarChart3 },
   ].filter((item) => !query.trim() || item.title.toLowerCase().includes(query.toLowerCase()));
 
   const handleNavigate = (href: string) => {

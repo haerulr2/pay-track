@@ -104,3 +104,51 @@ export interface CashFlowPoint {
 export type CashFlowTimeframe = "7D" | "30D" | "90D" | "YTD";
 
 export type CashFlowSeries = Record<CashFlowTimeframe, CashFlowPoint[]>;
+
+// Analytics Dashboard Types
+export type AnalyticsTimeframe = "7D" | "30D" | "90D" | "YTD";
+
+export interface AnalyticsKpi {
+  grossVolume: number;
+  grossVolumeChange: number; // e.g. +14.2
+  netSettlement: number;
+  netSettlementChange: number; // e.g. +13.8
+  authorizationRate: number; // e.g. 97.8
+  authorizationRateChange: number; // e.g. +0.4
+  disputeRate: number; // e.g. 0.08
+  disputeRateChange: number; // e.g. -0.02
+}
+
+export interface VolumeTrendPoint {
+  date: string;
+  label: string;
+  gross: number;
+  net: number;
+  fees: number;
+  count: number;
+}
+
+export interface PaymentMethodShare {
+  name: string;
+  methodType: "card" | "wire" | "ach" | "wallet";
+  volume: number;
+  percentage: number;
+  count: number;
+  color: string;
+}
+
+export interface DeclineReason {
+  reason: string;
+  category: "customer" | "card_issuer" | "fraud" | "system";
+  count: number;
+  percentage: number;
+  suggestedAction: string;
+}
+
+export interface AnalyticsSnapshot {
+  timeframe: AnalyticsTimeframe;
+  kpis: AnalyticsKpi;
+  volumeTrend: VolumeTrendPoint[];
+  methodDistribution: PaymentMethodShare[];
+  declineReasons: DeclineReason[];
+}
