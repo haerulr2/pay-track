@@ -373,3 +373,5 @@ export const analyticsSnapshots: Record<AnalyticsTimeframe, AnalyticsSnapshot> =
 export function getAnalyticsSnapshot(timeframe: AnalyticsTimeframe): AnalyticsSnapshot {
   return analyticsSnapshots[timeframe] ?? analyticsSnapshots["30D"];
 }
+
+export const getAnalyticsData = getAnalyticsSnapshot;

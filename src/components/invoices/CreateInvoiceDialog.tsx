@@ -6,6 +6,7 @@ import { Plus, Trash2, X, Receipt } from "lucide-react";
 import { Invoice, InvoiceLineItem } from "@/lib/dummy-invoices";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 export interface CreateInvoiceDialogProps {
@@ -19,6 +20,7 @@ const emptySubscribe = () => () => {};
 let nextInvoiceNumber = 109;
 
 export function CreateInvoiceDialog({ isOpen, onClose, onCreate }: CreateInvoiceDialogProps) {
+  const toast = useToast();
   const [customer, setCustomer] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerCompany, setCustomerCompany] = useState("");
@@ -99,8 +101,9 @@ export function CreateInvoiceDialog({ isOpen, onClose, onCreate }: CreateInvoice
       amount: (Number(i.quantity) || 1) * (Number(i.unitPrice) || 0),
     }));
 
+    const invoiceId = `INV-2026-${String(nextInvoiceNumber++).padStart(3, "0")}`;
     const newInvoice: Invoice = {
-      id: `INV-2026-${String(nextInvoiceNumber++).padStart(3, "0")}`,
+      id: invoiceId,
       customer,
       customerEmail,
       customerCompany,
@@ -124,6 +127,7 @@ export function CreateInvoiceDialog({ isOpen, onClose, onCreate }: CreateInvoice
     };
 
     onCreate(newInvoice);
+    toast.success(`Invoice ${invoiceId} successfully generated`);
     onClose();
   };
 

@@ -2,6 +2,7 @@ import "./globals.css";
 
 import ThemeProvider from "@/components/ThemeProvider";
 import MobileNav from "@/components/layouts/MobileNav";
+import { ToastProvider } from "@/components/ui/toast";
 import { inter } from "@/lib/fonts";
 
 export const metadata = {
@@ -14,8 +15,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <MobileNav />
-          {children}
+          <ToastProvider>
+            <MobileNav />
+            {children}
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

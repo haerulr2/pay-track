@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import ApiKeyCard from "@/components/ApiKeyCard";
 import Reveal from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import {
   codeSnippets,
   defaultApiKeys,
@@ -32,6 +33,7 @@ type DevTab = "keys" | "webhooks" | "sdks";
 type SnippetLang = "curl" | "node" | "python" | "go";
 
 export default function DevelopersPage() {
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<DevTab>("keys");
   const [isLiveMode, setIsLiveMode] = useState(false);
   const [copiedSnippet, setCopiedSnippet] = useState(false);
@@ -79,6 +81,7 @@ export default function DevelopersPage() {
     };
 
     setRestrictedKeys([newKey, ...restrictedKeys]);
+    toast.success(`Restricted key "${newKey.name}" generated`);
     setNewKeyName("");
     setShowNewKeyModal(false);
   };
@@ -102,6 +105,7 @@ export default function DevelopersPage() {
     };
 
     setWebhooks([newEndpoint, ...webhooks]);
+    toast.success("Webhook endpoint registered");
     setNewWebhookUrl("");
     setShowNewWebhookModal(false);
   };
@@ -136,6 +140,7 @@ export default function DevelopersPage() {
       setLogs([newLog, ...logs]);
       setSimulatingEvent(false);
       setSimulationSuccess(true);
+      toast.success(`Test webhook for "${selectedSimEvent}" dispatched (HTTP 200)`);
       setTimeout(() => setSimulationSuccess(false), 3000);
     }, 600);
   };

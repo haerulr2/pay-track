@@ -54,7 +54,12 @@ export interface FormState<T = Record<string, unknown>> {
 
 // Financial & Transaction Models
 export type TransactionStatus =
-  "Succeeded" | "Pending" | "Failed" | "Refunded" | "Disputed" | "Uncaptured";
+  | "Succeeded"
+  | "Pending"
+  | "Failed"
+  | "Refunded"
+  | "Disputed"
+  | "Uncaptured";
 
 export type PaymentMethodType = "card" | "wire" | "ach" | "wallet";
 

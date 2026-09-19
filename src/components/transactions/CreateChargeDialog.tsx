@@ -6,6 +6,7 @@ import { CreditCard, Building2, Wallet, X, ArrowUpRight } from "lucide-react";
 import { PaymentMethodType, Transaction, TransactionStatus } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 export interface CreateChargeDialogProps {
@@ -31,6 +32,7 @@ const paymentMethodOptions: PaymentMethodOption[] = [
 ];
 
 export function CreateChargeDialog({ isOpen, onClose, onCreate }: CreateChargeDialogProps) {
+  const toast = useToast();
   const [customer, setCustomer] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [amount, setAmount] = useState<string>("1250.00");
@@ -133,6 +135,7 @@ export function CreateChargeDialog({ isOpen, onClose, onCreate }: CreateChargeDi
     };
 
     onCreate(newTransaction);
+    toast.success(`Charge of $${amount} successfully created`);
     onClose();
 
     // Reset form

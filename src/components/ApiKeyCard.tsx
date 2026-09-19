@@ -121,3 +121,5 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
     </Card>
   );
 }
+
+export { ApiKeyCard };

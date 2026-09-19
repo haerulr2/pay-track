@@ -5,11 +5,13 @@ import React, { useState } from "react";
 
 import Reveal from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 type SettingsTab = "general" | "payouts" | "security" | "notifications";
 
 export default function SettingsPage() {
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<SettingsTab>("general");
   const [isSaved, setIsSaved] = useState(false);
 
@@ -36,6 +38,7 @@ export default function SettingsPage() {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaved(true);
+    toast.success("Organization settings successfully saved");
     setTimeout(() => setIsSaved(false), 2500);
   };
 
