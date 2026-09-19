@@ -1,11 +1,13 @@
 "use client";
 
-import { Bell, ChevronRight, Plus, Search } from "lucide-react";
+import { Bell, Check, ChevronRight, CreditCard, FileText, Link2, Plus, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import ThemeToggle from "@/components/ThemeToggle";
 import SearchDialog from "@/components/SearchDialog";
+import ThemeToggle from "@/components/ThemeToggle";
+import { CreateInvoiceDialog } from "@/components/invoices/CreateInvoiceDialog";
+import { CreateChargeDialog } from "@/components/transactions/CreateChargeDialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +19,17 @@ import {
 export default function Topbar() {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [isChargeOpen, setIsChargeOpen] = React.useState(false);
+  const [isInvoiceOpen, setIsInvoiceOpen] = React.useState(false);
+  const [linkCopied, setLinkCopied] = React.useState(false);
+
+  const handleCopyPaymentLink = () => {
+    if (typeof navigator !== "undefined") {
+      navigator.clipboard.writeText("https://pay.paytrack.dev/plink_98a72bdf1");
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    }
+  };
 
   const getBreadcrumb = (path: string) => {
     if (path === "/dashboard" || path === "/") {
@@ -88,10 +101,30 @@ export default function Topbar() {
                 <span>New Payment</span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem className="cursor-pointer">Create Payment</DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">Create Invoice</DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">Create Payment Link</DropdownMenuItem>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuItem
+                onSelect={() => setIsChargeOpen(true)}
+                className="cursor-pointer gap-2"
+              >
+                <CreditCard className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Create Payment</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => setIsInvoiceOpen(true)}
+                className="cursor-pointer gap-2"
+              >
+                <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <span>Create Invoice</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={handleCopyPaymentLink} className="cursor-pointer gap-2">
+                {linkCopied ? (
+                  <Check className="h-4 w-4 text-emerald-500" />
+                ) : (
+                  <Link2 className="h-4 w-4 text-slate-500" />
+                )}
+                <span>{linkCopied ? "Link Copied!" : "Copy Payment Link"}</span>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -181,6 +214,24 @@ export default function Topbar() {
 
       {/* Search Modal Dialog */}
       <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
+      {/* Global Create Charge Dialog */}
+      <CreateChargeDialog
+        isOpen={isChargeOpen}
+        onClose={() => setIsChargeOpen(false)}
+        onCreate={() => {
+          setIsChargeOpen(false);
+        }}
+      />
+
+      {/* Global Create Invoice Dialog */}
+      <CreateInvoiceDialog
+        isOpen={isInvoiceOpen}
+        onClose={() => setIsInvoiceOpen(false)}
+        onCreate={() => {
+          setIsInvoiceOpen(false);
+        }}
+      />
     </header>
   );
 }
