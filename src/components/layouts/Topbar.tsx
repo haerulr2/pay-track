@@ -51,6 +51,9 @@ export default function Topbar() {
     if (path.startsWith("/settings")) {
       return { section: "Organization", page: "Settings" };
     }
+    if (path.startsWith("/developers")) {
+      return { section: "Developers", page: "API Keys" };
+    }
     const clean = path.replace(/^\//, "").split("/")[0] || "";
     const page = clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : "Overview";
     return { section: "Finance", page };
@@ -208,7 +211,9 @@ export default function Topbar() {
                 <Link href="/settings">Profile Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">Team & Permissions</DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">API Keys</DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href="/developers">API Keys</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="cursor-pointer text-rose-600 focus:text-rose-600 dark:text-rose-400 dark:focus:text-rose-400">
                 Log out

@@ -6,6 +6,7 @@ import {
   ArrowLeftRight,
   ArrowRight,
   BarChart3,
+  Code2,
   CreditCard,
   FileText,
   History,
@@ -91,6 +92,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
     { title: "Customer Directory", href: "/customers", icon: Users },
     { title: "Payment Analytics", href: "/analytics", icon: BarChart3 },
     { title: "Organization Settings", href: "/settings", icon: Settings },
+    { title: "Developer & API Keys", href: "/developers", icon: Code2 },
   ].filter((item) => !query.trim() || item.title.toLowerCase().includes(query.toLowerCase()));
 
   const handleNavigate = (href: string) => {

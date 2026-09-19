@@ -42,7 +42,7 @@ const mainNavItems: NavItem[] = [
 ];
 
 const settingsNavItems: NavItem[] = [
-  { title: "API Keys / Developers", href: "#", icon: Code2 },
+  { title: "API Keys / Developers", href: "/developers", icon: Code2 },
   { title: "Settings", href: "/settings", icon: Settings },
 ];
 

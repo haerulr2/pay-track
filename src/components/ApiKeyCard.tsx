@@ -32,17 +32,31 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
   };
 
   return (
-    <Card className={cn("border-none bg-gray-100 shadow-none", className)}>
-      <CardHeader>
-        <CardTitle className="text-lg font-medium">API keys</CardTitle>
+    <Card
+      className={cn(
+        "border border-slate-200 bg-slate-50/60 shadow-none dark:border-slate-800 dark:bg-[#111827]",
+        className
+      )}
+    >
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base font-semibold text-slate-900 dark:text-white">
+          Standard API Keys
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">Publishable key</span>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                  Publishable key
+                </span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Client-side tokens & checkout elements
+                </p>
+              </div>
               <code
-                className="bg-muted hover:bg-muted/80 relative cursor-pointer rounded px-[0.3rem] py-[0.2rem] font-mono text-sm transition-colors"
+                className="relative flex cursor-pointer items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-800 transition-colors hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/20"
                 onClick={() => handleKeyClick(publishableKey, "publishable")}
                 role="button"
                 tabIndex={0}
@@ -55,19 +69,30 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
                 aria-label="Click to copy publishable key"
                 title={copiedKey === "publishable" ? "Copied!" : "Click to copy"}
               >
-                {maskKey(publishableKey)}
-                {copiedKey === "publishable" && (
-                  <span className="ml-2 text-xs text-green-600">Copied!</span>
+                <span>{maskKey(publishableKey)}</span>
+                {copiedKey === "publishable" ? (
+                  <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Copied!
+                  </span>
+                ) : (
+                  <span className="text-[10px] text-slate-400">Click to copy</span>
                 )}
               </code>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">Secret key</span>
+          <div className="space-y-2 pt-2">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                  Secret key
+                </span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Server-side authorization for charges & payouts
+                </p>
+              </div>
               <code
-                className="bg-muted hover:bg-muted/80 relative cursor-pointer rounded px-[0.3rem] py-[0.2rem] font-mono text-sm transition-colors"
+                className="relative flex cursor-pointer items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs text-slate-800 transition-colors hover:border-emerald-500/50 hover:bg-emerald-50/30 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-500/40 dark:hover:bg-emerald-950/20"
                 onClick={() => handleKeyClick(secretKey, "secret")}
                 role="button"
                 tabIndex={0}
@@ -80,9 +105,13 @@ export default function ApiKeyCard({ publishableKey, secretKey, className }: Api
                 aria-label="Click to copy secret key"
                 title={copiedKey === "secret" ? "Copied!" : "Click to copy"}
               >
-                {maskKey(secretKey)}
-                {copiedKey === "secret" && (
-                  <span className="ml-2 text-xs text-green-600">Copied!</span>
+                <span>{maskKey(secretKey)}</span>
+                {copiedKey === "secret" ? (
+                  <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Copied!
+                  </span>
+                ) : (
+                  <span className="text-[10px] text-slate-400">Click to copy</span>
                 )}
               </code>
             </div>

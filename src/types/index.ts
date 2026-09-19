@@ -152,3 +152,32 @@ export interface AnalyticsSnapshot {
   methodDistribution: PaymentMethodShare[];
   declineReasons: DeclineReason[];
 }
+
+// Developer & API Credentials Models
+export interface RestrictedApiKey {
+  id: string;
+  name: string;
+  keyPrefix: string;
+  permissions: string[];
+  createdAt: string;
+  lastUsed: string;
+}
+
+export interface WebhookEndpoint {
+  id: string;
+  url: string;
+  status: "active" | "failing" | "disabled";
+  events: string[];
+  secret: string;
+  lastDeliveryTime: string;
+  successRate: string;
+}
+
+export interface WebhookDeliveryLog {
+  id: string;
+  event: string;
+  status: number;
+  timestamp: string;
+  durationMs: number;
+  payload: string;
+}
