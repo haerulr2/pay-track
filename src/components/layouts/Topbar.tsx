@@ -1,6 +1,7 @@
 "use client";
 
 import { Bell, Check, ChevronRight, CreditCard, FileText, Link2, Plus, Search } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
@@ -46,6 +47,9 @@ export default function Topbar() {
     }
     if (path.startsWith("/analytics")) {
       return { section: "Finance", page: "Analytics" };
+    }
+    if (path.startsWith("/settings")) {
+      return { section: "Organization", page: "Settings" };
     }
     const clean = path.replace(/^\//, "").split("/")[0] || "";
     const page = clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : "Overview";
@@ -200,7 +204,9 @@ export default function Topbar() {
                   </span>
                 </div>
               </div>
-              <DropdownMenuItem className="cursor-pointer">Profile Settings</DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href="/settings">Profile Settings</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">Team & Permissions</DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">API Keys</DropdownMenuItem>
               <DropdownMenuSeparator />

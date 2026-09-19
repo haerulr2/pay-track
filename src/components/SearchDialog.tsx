@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   Moon,
   Search,
+  Settings,
   Sun,
   Users,
   X,
@@ -89,6 +90,7 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
     { title: "Invoices & Billing", href: "/invoices", icon: FileText },
     { title: "Customer Directory", href: "/customers", icon: Users },
     { title: "Payment Analytics", href: "/analytics", icon: BarChart3 },
+    { title: "Organization Settings", href: "/settings", icon: Settings },
   ].filter((item) => !query.trim() || item.title.toLowerCase().includes(query.toLowerCase()));
 
   const handleNavigate = (href: string) => {

@@ -43,7 +43,7 @@ const mainNavItems: NavItem[] = [
 
 const settingsNavItems: NavItem[] = [
   { title: "API Keys / Developers", href: "#", icon: Code2 },
-  { title: "Settings", href: "#", icon: Settings },
+  { title: "Settings", href: "/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
