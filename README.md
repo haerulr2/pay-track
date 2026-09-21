@@ -10,7 +10,7 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ## 🚀 Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Styling**: TailwindCSS + Dark Mode (`next-themes`)
 - **Charting**: Recharts
 - **Animation**: Framer Motion
@@ -32,7 +32,7 @@ This project is designed to simulate a production-grade dashboard for managing t
 
 ## 🔗 Live Demo
 
-👉 [Visit PayTrack Dashboard (Vercel)](https://pay-track-eta.vercel.app/dashboard)
+👉 [Visit PayTrack Dashboard](https://pay-track.haerulr2.dev)
 
 ---
 
