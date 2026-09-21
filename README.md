@@ -4,7 +4,7 @@ A modern, responsive, and animated dashboard clone inspired by Stripe, built wit
 
 This project is designed to simulate a production-grade dashboard for managing transactions, analytics, and user data. Built as a portfolio piece to demonstrate real-world frontend architecture.
 
-![PayTrack Preview](https://github.com/user-attachments/assets/b30a0122-563c-492b-833e-0f8902844afa)
+![PayTrack Preview](./public/preview.png)
 
 ---
 
@@ -46,10 +46,3 @@ This project is built **solely for educational & portfolio purposes**. It is **n
 
 MIT License – [read here](./LICENSE)
 
----
-
-## 🤝 Credits
-
-Inspired by the UI/UX structure of [stripe.com](https://stripe.com) and rebuilt as a frontend architecture showcase.
-
----
